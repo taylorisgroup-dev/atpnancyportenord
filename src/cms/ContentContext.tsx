@@ -59,24 +59,21 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const updateNestedContent = async (path: string[], value: any) => {
+    const newContent = { ...content };
+    let current: any = newContent;
+    for (let i = 0; i < path.length - 1; i++) {
+      current[path[i]] = { ...current[path[i]] };
+      current = current[path[i]];
+    }
+    current[path[path.length - 1]] = value;
+    
     // Update local state immediately for snappy UI
-    let updatedContent: SiteContent = { ...content };
-    setContent(prev => {
-      const newContent = { ...prev };
-      let current: any = newContent;
-      for (let i = 0; i < path.length - 1; i++) {
-        current[path[i]] = { ...current[path[i]] };
-        current = current[path[i]];
-      }
-      current[path[path.length - 1]] = value;
-      updatedContent = newContent;
-      return newContent;
-    });
+    setContent(newContent);
 
     try {
       const { error } = await supabase
         .from('site_settings')
-        .upsert({ id: 'global', content: updatedContent });
+        .upsert({ id: 'global', content: newContent });
       
       if (error) throw error;
     } catch (e) {
@@ -85,23 +82,20 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateContent = async (section: keyof SiteContent, key: string, value: any) => {
-    let updatedContent: SiteContent = { ...content };
-    setContent(prev => {
-      const newContent = {
-        ...prev,
-        [section]: {
-          ...prev[section],
-          [key]: value
-        }
-      };
-      updatedContent = newContent;
-      return newContent;
-    });
+    const newContent = {
+      ...content,
+      [section]: {
+        ...content[section],
+        [key]: value
+      }
+    };
+    
+    setContent(newContent);
 
     try {
       const { error } = await supabase
         .from('site_settings')
-        .upsert({ id: 'global', content: updatedContent });
+        .upsert({ id: 'global', content: newContent });
       
       if (error) throw error;
     } catch(e) {
