@@ -168,28 +168,44 @@ const Footer = () => (
 );
 
 // --- Video Frame Component ---
-const VideoFrame = ({ url }: { url?: string }) => (
-  <div className="hero-video-frame">
-    {url ? (
-      <iframe
-        src={url}
-        allow="autoplay; fullscreen; picture-in-picture"
-        allowFullScreen
-        style={{ border: 'none', width: '100%', height: '100%' }}
-      />
-    ) : (
-      <div className="video-placeholder-inner">
-        <div className="video-play-btn">
-          <Play size={40} style={{ color: 'white', marginLeft: '4px' }} />
+const VideoFrame = ({ url }: { url?: string }) => {
+  let displayUrl = url;
+  if (url) {
+    const watchMatch = url.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/);
+    if (watchMatch) displayUrl = `https://www.youtube.com/embed/${watchMatch[1]}`;
+    else {
+      const shortMatch = url.match(/(?:https?:\/\/)?(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]+)/);
+      if (shortMatch) displayUrl = `https://www.youtube.com/embed/${shortMatch[1]}`;
+      else {
+        const shortsMatch = url.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/);
+        if (shortsMatch) displayUrl = `https://www.youtube.com/embed/${shortsMatch[1]}`;
+      }
+    }
+  }
+
+  return (
+    <div className="hero-video-frame">
+      {displayUrl ? (
+        <iframe
+          src={displayUrl}
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+          style={{ border: 'none', width: '100%', height: '100%' }}
+        />
+      ) : (
+        <div className="video-placeholder-inner">
+          <div className="video-play-btn">
+            <Play size={40} style={{ color: 'white', marginLeft: '4px' }} />
+          </div>
+          <p style={{ color: 'rgba(255,255,255,0.7)', marginTop: '20px', fontSize: '0.9rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+            Vidéo de présentation
+          </p>
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', marginTop: '6px' }}>Configurable depuis l'espace administrateur</p>
         </div>
-        <p style={{ color: 'rgba(255,255,255,0.7)', marginTop: '20px', fontSize: '0.9rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-          Vidéo de présentation
-        </p>
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', marginTop: '6px' }}>Configurable depuis l'espace administrateur</p>
-      </div>
-    )}
-  </div>
-);
+      )}
+    </div>
+  );
+};
 
 // --- Pages ---
 
@@ -246,20 +262,20 @@ const HomePage = () => {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '60px' }}>
-            <div className="glass" style={{ padding: '28px', borderRadius: '16px', borderTop: '4px solid var(--atp-blue)' }}>
-              <Users style={{ color: 'var(--atp-blue)', marginBottom: '16px' }} size={32} />
-              <h3 style={{ fontSize: '1.05rem', marginBottom: '10px' }}>Fédérer l'Excellence</h3>
-              <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>Nous créons des ponts entre les entreprises des zones Lafayette, Prouvé et Fruchard, favorisant le partage d'expertises et la naissance de synergies commerciales locales.</p>
+            <div className="glass hover-premium-card" style={{ padding: '32px', borderRadius: '16px', borderTop: '4px solid var(--atp-blue)' }}>
+              <div style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--atp-blue)', opacity: 0.15, marginBottom: '4px', lineHeight: 1, letterSpacing: '-0.05em' }}>01</div>
+              <h3 style={{ fontSize: '1.15rem', marginBottom: '12px' }}>Fédérer l'Excellence</h3>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Nous créons des ponts entre les entreprises des zones Lafayette, Prouvé et Fruchard, favorisant le partage d'expertises et la naissance de synergies commerciales locales.</p>
             </div>
-            <div className="glass" style={{ padding: '28px', borderRadius: '16px', borderTop: '4px solid var(--atp-red)' }}>
-              <Zap style={{ color: 'var(--atp-red)', marginBottom: '16px' }} size={32} />
-              <h3 style={{ fontSize: '1.05rem', marginBottom: '10px' }}>Accélérer le Dialogue</h3>
-              <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>Interface privilégiée avec les institutions, nous portons la voix des entrepreneurs pour influencer l'aménagement et le développement du territoire.</p>
+            <div className="glass hover-premium-card" style={{ padding: '32px', borderRadius: '16px', borderTop: '4px solid var(--atp-red)' }}>
+              <div style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--atp-red)', opacity: 0.15, marginBottom: '4px', lineHeight: 1, letterSpacing: '-0.05em' }}>02</div>
+              <h3 style={{ fontSize: '1.15rem', marginBottom: '12px' }}>Accélérer le Dialogue</h3>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Interface privilégiée avec les institutions, nous portons la voix des entrepreneurs pour influencer l'aménagement et le développement du territoire.</p>
             </div>
-            <div className="glass" style={{ padding: '28px', borderRadius: '16px', borderTop: '4px solid var(--atp-blue)' }}>
-              <Award style={{ color: 'var(--atp-blue)', marginBottom: '16px' }} size={32} />
-              <h3 style={{ fontSize: '1.05rem', marginBottom: '10px' }}>Valoriser l'Ancrage</h3>
-              <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>Nous promouvons l'attractivité de la zone Porte Nord pour attirer de nouveaux talents, investisseurs et partenaires stratégiques.</p>
+            <div className="glass hover-premium-card" style={{ padding: '32px', borderRadius: '16px', borderTop: '4px solid var(--atp-blue)' }}>
+              <div style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--atp-blue)', opacity: 0.15, marginBottom: '4px', lineHeight: 1, letterSpacing: '-0.05em' }}>03</div>
+              <h3 style={{ fontSize: '1.15rem', marginBottom: '12px' }}>Valoriser l'Ancrage</h3>
+              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>Nous promouvons l'attractivité de la zone Porte Nord pour attirer de nouveaux talents, investisseurs et partenaires stratégiques.</p>
             </div>
           </div>
 
@@ -375,26 +391,22 @@ const AboutPage = () => {
             <h2 style={{ marginTop: '8px' }}>Nos Valeurs Fondamentales</h2>
           </div>
           <p style={{ textAlign: 'center', maxWidth: '44rem', margin: '0 auto 40px', fontSize: '1.05rem', fontStyle: 'italic', color: 'var(--text-muted)' }}>"{about.quote}"</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', textAlign: 'center' }}>
-            <div style={{ background: 'white', padding: '32px 24px', borderRadius: '18px', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
-              <div style={{ width: '44px', height: '44px', background: 'rgba(0,58,92,0.08)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><Globe size={20} style={{ color: 'var(--atp-blue)' }} /></div>
-              <h4 style={{ fontSize: '1.05rem', marginBottom: '6px' }}>Proximité</h4>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Au plus près des réalités terrain de chaque entreprise</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px', textAlign: 'left' }}>
+            <div style={{ background: 'white', padding: '32px', borderRadius: '18px', borderLeft: '4px solid var(--atp-blue)', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+              <h4 style={{ fontSize: '1.1rem', marginBottom: '8px', color: 'var(--atp-blue)' }}>Proximité</h4>
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>Au plus près des réalités terrain de chaque entreprise</p>
             </div>
-            <div style={{ background: 'white', padding: '32px 24px', borderRadius: '18px', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
-              <div style={{ width: '44px', height: '44px', background: 'rgba(196,43,46,0.08)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><Zap size={20} style={{ color: 'var(--atp-red)' }} /></div>
-              <h4 style={{ fontSize: '1.05rem', marginBottom: '6px' }}>Synergie</h4>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Les entreprises sont plus fortes quand elles agissent ensemble</p>
+            <div style={{ background: 'white', padding: '32px', borderRadius: '18px', borderLeft: '4px solid var(--atp-red)', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+              <h4 style={{ fontSize: '1.1rem', marginBottom: '8px', color: 'var(--atp-red)' }}>Synergie</h4>
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>Les entreprises sont plus fortes quand elles agissent ensemble</p>
             </div>
-            <div style={{ background: 'white', padding: '32px 24px', borderRadius: '18px', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
-              <div style={{ width: '44px', height: '44px', background: 'rgba(0,58,92,0.08)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><Shield size={20} style={{ color: 'var(--atp-blue)' }} /></div>
-              <h4 style={{ fontSize: '1.05rem', marginBottom: '6px' }}>Défense</h4>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Porte-parole des entrepreneurs face aux décideurs publics</p>
+            <div style={{ background: 'white', padding: '32px', borderRadius: '18px', borderLeft: '4px solid var(--atp-blue)', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+              <h4 style={{ fontSize: '1.1rem', marginBottom: '8px', color: 'var(--atp-blue)' }}>Défense</h4>
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>Porte-parole des entrepreneurs face aux décideurs publics</p>
             </div>
-            <div style={{ background: 'white', padding: '32px 24px', borderRadius: '18px', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
-              <div style={{ width: '44px', height: '44px', background: 'rgba(196,43,46,0.08)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}><Heart size={20} style={{ color: 'var(--atp-red)' }} /></div>
-              <h4 style={{ fontSize: '1.05rem', marginBottom: '6px' }}>Solidarité</h4>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>Engagement social local et international au cœur de notre ADN</p>
+            <div style={{ background: 'white', padding: '32px', borderRadius: '18px', borderLeft: '4px solid var(--atp-red)', boxShadow: '0 2px 12px rgba(0,0,0,0.04)' }}>
+              <h4 style={{ fontSize: '1.1rem', marginBottom: '8px', color: 'var(--atp-red)' }}>Solidarité</h4>
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>Engagement social local et international au cœur de notre ADN</p>
             </div>
           </div>
         </div>
@@ -551,7 +563,7 @@ const DirectoryPage = () => {
       {displayed.length > 0 ? (
         <>
           {viewMode === 'grid' ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' }}>
               {displayed.map((c: any, i: number) => (
                 <motion.div key={i} initial={{ opacity: 0, y: 20, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.4, delay: (Math.min(i, 11) % 12) * 0.04 }} style={{ padding: '28px', borderRadius: '24px', position: 'relative', overflow: 'hidden', background: 'white', border: '1px solid #e5e7eb', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
@@ -1058,7 +1070,7 @@ const ActionInsertionPage = () => {
             <h2 style={{ marginTop: '8px' }}>Solidarité & Inclusion au quotidien</h2>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '24px' }}>
             {[
               {
                 icon: <Heart size={28} />, color: 'var(--atp-red)', bg: 'rgba(196,43,46,0.08)',
@@ -2300,6 +2312,71 @@ const DynamicPopup = () => {
   );
 };
 
+const PwaInstallPrompt = () => {
+  const [installPromptEvent, setInstallPromptEvent] = useState<any>(null);
+  const [isIos, setIsIos] = useState(false);
+  const [showIosPrompt, setShowIosPrompt] = useState(false);
+
+  useEffect(() => {
+    // Detect iOS
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
+    
+    // Check if already installed
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || (window.navigator as any).standalone === true;
+
+    if (isIosDevice && !isStandalone) {
+      setIsIos(true);
+      setShowIosPrompt(true);
+    }
+
+    const handleBeforeInstallPrompt = (e: any) => {
+      e.preventDefault();
+      setInstallPromptEvent(e);
+    };
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+  }, []);
+
+  if (!installPromptEvent && !showIosPrompt) return null;
+
+  return (
+    <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="pwa-prompt-container">
+      <div style={{ width: '48px', height: '48px', background: 'white', borderRadius: '12px', padding: '8px', flexShrink: 0, boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
+        <img src="/pwa-192x192.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+      </div>
+      <div style={{ flex: 1 }}>
+        <strong style={{ display: 'block', fontSize: '1rem', marginBottom: '2px', color: 'var(--charcoal-gray)' }}>L'App ATP Porte Nord</strong>
+        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block' }}>
+          {isIos ? "Touchez l'icône Partage puis 'Sur l'écran d'accueil'" : "Accès rapide et hors-ligne !"}
+        </span>
+      </div>
+      
+      {!isIos && (
+        <button 
+          onClick={() => {
+            if (installPromptEvent) {
+              installPromptEvent.prompt();
+              installPromptEvent.userChoice.then((choiceResult: any) => {
+                if (choiceResult.outcome === 'accepted') {
+                  setInstallPromptEvent(null);
+                }
+              });
+            }
+          }} 
+          style={{ background: 'var(--atp-blue)', color: 'white', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 800, cursor: 'pointer', fontSize: '0.9rem', transition: 'all 0.2s', marginLeft: '10px', boxShadow: '0 4px 15px rgba(0, 58, 92, 0.3)' }}
+        >
+          Installer
+        </button>
+      )}
+      
+      <button onClick={() => { setInstallPromptEvent(null); setShowIosPrompt(false); }} style={{ position: 'absolute', top: '10px', right: '10px', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}>
+        <X size={18} />
+      </button>
+    </motion.div>
+  );
+};
+
 const AppLayout = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin');
@@ -2308,6 +2385,7 @@ const AppLayout = () => {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {!isAdmin && <Navbar />}
       {!isAdmin && <DynamicPopup />}
+      {!isAdmin && <PwaInstallPrompt />}
       <div style={{ flex: 1 }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -2352,6 +2430,23 @@ const AppLayout = () => {
         .btn-sm { padding: 8px 18px; font-size: 0.78rem; }
         .btn-outline { background: transparent; border: 2px solid var(--atp-blue); color: var(--atp-blue); }
         .btn-outline:hover { background: var(--atp-blue); color: white; }
+        
+        .pwa-prompt-container {
+          position: fixed;
+          bottom: 20px;
+          left: 20px;
+          z-index: 9999;
+          background: var(--charcoal-gray);
+          color: white;
+          padding: 16px 20px;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+          border: 1px solid rgba(255,255,255,0.1);
+        }
+
         @media (max-width: 1100px) { .hero-video-side { flex: 0 0 100%; max-width: 100%; margin-top: 40px; } }
         @media (max-width: 768px) {
           .container { padding: 0 20px; }
@@ -2362,6 +2457,13 @@ const AppLayout = () => {
           div[style*="grid-template-columns: 1fr 1.2fr"] { grid-template-columns: 1fr !important; }
           div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
           div[style*="grid-template-columns: 1.1fr 1fr"] { grid-template-columns: 1fr !important; }
+          
+          .pwa-prompt-container {
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border-radius: 12px;
+          }
         }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
       `}</style>

@@ -18,11 +18,16 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const loadContent = async () => {
       try {
-        const { data, error } = await supabase
-          .from('site_settings')
-          .select('content')
-          .eq('id', 'global')
-          .single();
+        const [supabaseResponse] = await Promise.all([
+          supabase
+            .from('site_settings')
+            .select('content')
+            .eq('id', 'global')
+            .single(),
+          new Promise(resolve => setTimeout(resolve, 1500)) // Force display splash screen for 1.5s
+        ]);
+        
+        const { data, error } = supabaseResponse;
         
         if (error && error.code !== 'PGRST116') { // PGRST116 is 'no rows returned'
           throw error;
@@ -103,7 +108,16 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  if(loading) return <div className="min-h-screen flex items-center justify-center bg-atp-blue text-white">Chargement du contenu...</div>;
+  if(loading) {
+    return (
+      <div style={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #0f172a, #003a5c)', color: 'white' }}>
+        <img src="/atp_logo_new.jpg" alt="ATP Porte Nord" style={{ width: '120px', borderRadius: '20px', marginBottom: '30px', boxShadow: '0 15px 35px rgba(0,0,0,0.4)', animation: 'pulse 2s infinite' }} />
+        <h2 style={{ color: 'white', letterSpacing: '0.05em', fontSize: '1.4rem', margin: 0, fontWeight: 800 }}>ATP NANCY PORTE NORD</h2>
+        <div style={{ width: '40px', height: '4px', background: '#c42b2e', margin: '20px 0', borderRadius: '2px' }} />
+        <span style={{ opacity: 0.7, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.2em', fontWeight: 600 }}>Initialisation...</span>
+      </div>
+    );
+  }
 
   return (
     <ContentContext.Provider value={{ content, updateContent, updateNestedContent }}>
