@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import { ContentProvider } from './cms/ContentContext'
 import { AuthProvider } from './lib/AuthContext'
-// @ts-ignore
 import { registerSW } from 'virtual:pwa-register'
 import './index.css'
 
