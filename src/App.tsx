@@ -230,7 +230,7 @@ const HomePage = () => {
               <strong style={{ color: 'white', opacity: 0.9 }}>ASSOCIATION TERRITOIRE PROJET - FONDÉE EN MAI 2006</strong>
             </span>
 
-            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.9, delay: 0.2 }} className="hover-video-card" style={{ width: '100%', maxWidth: '900px', margin: '0 auto 40px auto', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 25px 50px rgba(0,0,0,0.4)', border: '4px solid rgba(255,255,255,0.1)', aspectRatio: '16/9' }}>
+            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.9, delay: 0.2 }} className="hover-video-card" style={{ width: '100%', maxWidth: '750px', margin: '0 auto 40px auto', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 25px 50px rgba(0,0,0,0.4)', border: '4px solid rgba(255,255,255,0.1)', aspectRatio: '16/9' }}>
               <VideoFrame url={hero.videoUrl} />
             </motion.div>
 

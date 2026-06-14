@@ -41,6 +41,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
   </head>
   <body>
+    <!-- Service Worker Kill Switch (Force Cache Clear) -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          let shouldReload = false;
+          for(let registration of registrations) {
+            registration.unregister();
+            shouldReload = true;
+          }
+          if (shouldReload) {
+            console.log("Old ServiceWorker unregistered, forcing reload...");
+            window.location.reload(true);
+          }
+        });
+      }
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
