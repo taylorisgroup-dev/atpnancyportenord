@@ -12,7 +12,7 @@ export const defaultContent = {
       titleHighlight: "ATP Nancy Porte\u00a0Nord",
       titleText: "Le réseau qui fait bouger la\u00a0zone",
       intro: "Depuis mai 2006, l'Association Territoire Projet fédère les entrepreneurs et entreprises de Maxéville et du Grand Nancy. Sur 178 hectares de zones d'activités, nous sommes le lien stratégique entre les acteurs économiques et les institutions locales, métropolitaines et régionales.",
-      logoImage: "/atp_logo_new.jpg",
+      logoImage: "/atp_logo_blue.png",
       videoUrl: "",
       primaryButtonText: "Adhérer 2026",
       primaryButtonLink: "https://www.helloasso.com/associations/maxeville-nancy-porte-nord/adhesions/cotisations-2026",

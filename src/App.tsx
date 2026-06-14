@@ -83,7 +83,7 @@ const Navbar = () => {
     <nav className={`fixed-navbar ${scrolled || !isHome ? 'nav-scrolled' : 'nav-transparent'}`}>
       <div className="container nav-content">
         <Link to="/" className="logo">
-          <img src="/atp_logo_new.jpg" alt="ATP Nancy Porte Nord" className="logo-img" />
+          <img src="/atp_logo_blue.png" alt="ATP Nancy Porte Nord" className="logo-img" />
         </Link>
         <div className="desktop-menu">
           {menuItems.map((item, i) => (<NavItem key={i} title={item.title} href={item.href} subItems={item.subItems} />))}
@@ -123,7 +123,7 @@ const Footer = () => (
     <div className="container">
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '40px', marginBottom: '40px' }}>
         <div>
-          <img src="/atp_logo_new.jpg" alt="Logo" style={{ height: '48px', marginBottom: '15px', borderRadius: '4px' }} />
+          <img src="/atp_logo_white.png" alt="Logo" style={{ height: '48px', marginBottom: '15px' }} />
           <p style={{ opacity: 0.6, fontSize: '0.85rem', lineHeight: '1.8' }}>
             Association Territoire Projet — Nancy Porte Nord.<br />
             Zone d'Activités Porte Nord, Maxéville — 54320.<br />
@@ -149,7 +149,7 @@ const Footer = () => (
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <h4 style={{ color: 'var(--atp-red)', textTransform: 'uppercase', fontSize: '0.7rem', letterSpacing: '0.15em', fontWeight: 800 }}>Partenaires</h4>
-          <img src="https://upload.wikimedia.org/wikipedia/fr/0/07/Logo_R%C3%A9gion_Grand_Est_2016.svg" alt="Région Grand Est" style={{ height: '30px', filter: 'brightness(0) invert(1)', opacity: 0.7, maxWidth: '120px' }} />
+          <img src="/region-grand-est-white.png" alt="Région Grand Est" style={{ height: '30px', opacity: 0.8, maxWidth: '120px', objectFit: 'contain' }} />
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>Métropole du Grand Nancy<br />Ville de Maxéville<br />France Travail<br />Conseil Départemental 54</p>
         </div>
       </div>
