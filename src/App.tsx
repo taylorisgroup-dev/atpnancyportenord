@@ -246,29 +246,29 @@ const HomePage = () => {
       </section>
 
       <div className="container" style={{ position: 'relative', zIndex: 20, marginTop: '-60px' }}>
-        <motion.div initial={{ y: 40, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6 }} className="banner-card" style={{ padding: '60px 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)', borderRadius: '24px', border: '1px solid #e2e8f0', boxShadow: '0 25px 50px -12px rgba(0,34,54,0.15)' }}>
-          <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--atp-red), #ff4d4d)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '30px', boxShadow: '0 10px 25px rgba(226, 0, 26, 0.3)' }}>
-            <Sparkles size={36} color="white" />
-          </div>
-          <div className="banner-card-content" style={{ maxWidth: '850px', padding: 0 }}>
-            <h2 className="banner-title" style={{ fontSize: '2.4rem', fontWeight: 900, marginBottom: '15px', color: 'var(--anthracite)' }}>NOTRE RAISON D'ÊTRE</h2>
-            <h3 className="banner-subtitle" style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--atp-blue)', opacity: 0.9, marginBottom: '30px' }}>Un catalyseur au service du territoire</h3>
-            <p className="banner-text" style={{ fontSize: '1.25rem', lineHeight: 1.8, color: '#475569', marginBottom: '40px', fontStyle: 'italic' }}>
-              "L'ATP Nancy Porte Nord ne se contente pas de fédérer. Nous agissons comme un <strong style={{color: 'var(--atp-red)'}}>levier stratégique</strong> pour transformer les défis économiques en opportunités de croissance collective."
-            </p>
-            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <a href={banner.buttonLink || '/about'} className="btn btn-primary" style={{ padding: '16px 36px', fontSize: '1.1rem', borderRadius: '50px' }}>{banner.buttonText || 'Découvrir nos missions'}</a>
+        <motion.div initial={{ y: 40, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6 }} className="banner-card" style={{ boxShadow: '0 25px 50px -12px rgba(0,34,54,0.15)', border: '1px solid #e2e8f0', borderRadius: '24px', overflow: 'hidden' }}>
+          <div className="banner-img-wrapper" style={{ backgroundImage: `url(${banner.image})`, backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '300px' }}></div>
+          <div className="banner-text-wrapper" style={{ padding: '40px', background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)' }}>
+            <span className="section-subtitle-small" style={{ color: 'var(--atp-red)', fontWeight: 900, letterSpacing: '0.15em', display: 'inline-block', marginBottom: '12px' }}>{banner.subtitle}</span>
+            <h2 style={{ fontSize: '2.2rem', marginBottom: '16px', lineHeight: 1.2, color: 'var(--anthracite)', fontWeight: 900 }}>{banner.title}</h2>
+            <p style={{ color: '#475569', marginBottom: '30px', fontSize: '1.15rem', lineHeight: 1.7 }}>{banner.text}</p>
+            <div>
+              <a href={banner.buttonLink} target="_blank" className="btn btn-primary" style={{ padding: '16px 36px', fontSize: '1.05rem', borderRadius: '50px' }}>{banner.buttonText}</a>
             </div>
           </div>
         </motion.div>
       </div>
 
-      <section id="actions" style={{ padding: '90px 0' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+      <section id="actions" style={{ padding: '120px 0 90px 0', position: 'relative' }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'radial-gradient(circle at top right, rgba(0,58,92,0.03), transparent 40%)', pointerEvents: 'none' }} />
+        <div className="container" style={{ position: 'relative', zIndex: 10 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', marginBottom: '70px', background: 'white', padding: '50px', borderRadius: '24px', boxShadow: '0 20px 40px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.05)' }}>
+            <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--atp-red), #ff4d4d)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '25px', boxShadow: '0 10px 25px rgba(226, 0, 26, 0.3)' }}>
+              <Sparkles size={36} color="white" />
+            </div>
             <span className="section-subtitle-small">NOTRE RAISON D'ÊTRE</span>
-            <h2>Un catalyseur au service du territoire</h2>
-            <p style={{ maxWidth: '44rem', margin: '16px auto 0', color: 'var(--text-muted)', lineHeight: 1.7 }}>L'ATP Nancy Porte Nord ne se contente pas de fédérer. Nous agissons comme un levier stratégique pour transformer les défis économiques en opportunités de croissance collective.</p>
+            <h2 style={{ fontSize: '2.4rem', fontWeight: 900, marginBottom: '15px', color: 'var(--anthracite)', marginTop: '10px' }}>Un catalyseur au service du territoire</h2>
+            <p style={{ maxWidth: '800px', margin: '0 auto', color: '#475569', lineHeight: 1.8, fontSize: '1.25rem', fontStyle: 'italic' }}>"L'ATP Nancy Porte Nord ne se contente pas de fédérer. Nous agissons comme un <strong style={{color: 'var(--atp-red)'}}>levier stratégique</strong> pour transformer les défis économiques en opportunités de croissance collective."</p>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '60px' }}>

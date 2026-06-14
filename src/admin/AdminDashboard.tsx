@@ -360,14 +360,65 @@ export const AdminDashboard: React.FC = () => {
                   <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)' }}>Candidatures récentes</span>
                 </div>
                 
-                <div className="admin-field-group full" style={{ marginTop: '20px' }}>
-                  <h4 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '15px' }}>Actions Rapides</h4>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
-                    <button onClick={() => setActiveTab('hero')} className="admin-btn admin-btn-secondary" style={{ justifyContent: 'flex-start', padding: '15px' }}><Edit3 size={18}/> Modifier l'Accueil</button>
-                    <button onClick={() => setActiveTab('inbox')} className="admin-btn admin-btn-secondary" style={{ justifyContent: 'flex-start', padding: '15px' }}><Mail size={18}/> Voir les Messages</button>
-                    <button onClick={() => setActiveTab('directory')} className="admin-btn admin-btn-secondary" style={{ justifyContent: 'flex-start', padding: '15px' }}><Building2 size={18}/> Annuaire Entreprises</button>
-                    <button onClick={() => setActiveTab('organigramme')} className="admin-btn admin-btn-secondary" style={{ justifyContent: 'flex-start', padding: '15px' }}><Users size={18}/> Gérer le Comité</button>
+                <div className="admin-field-group full" style={{ marginTop: '30px', display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '30px' }}>
+                  
+                  <div>
+                    <h4 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}><Zap size={20} color="var(--atp-red)"/> Actions Rapides</h4>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px', marginBottom: '40px' }}>
+                      <button onClick={() => setActiveTab('hero')} className="admin-btn admin-btn-secondary" style={{ justifyContent: 'flex-start', padding: '15px', background: 'white', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}><Edit3 size={18} color="var(--atp-blue)"/> Modifier l'Accueil</button>
+                      <button onClick={() => setActiveTab('inbox')} className="admin-btn admin-btn-secondary" style={{ justifyContent: 'flex-start', padding: '15px', background: 'white', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}><Mail size={18} color="#10b981"/> Voir les Messages</button>
+                      <button onClick={() => setActiveTab('directory')} className="admin-btn admin-btn-secondary" style={{ justifyContent: 'flex-start', padding: '15px', background: 'white', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}><Building2 size={18} color="#f59e0b"/> Annuaire Entreprises</button>
+                      <button onClick={() => setActiveTab('organigramme')} className="admin-btn admin-btn-secondary" style={{ justifyContent: 'flex-start', padding: '15px', background: 'white', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}><Users size={18} color="#8b5cf6"/> Gérer le Comité</button>
+                    </div>
+
+                    <h4 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}><Calendar size={20} color="var(--atp-blue)"/> Flux d'Activité Récente</h4>
+                    <div style={{ background: 'white', borderRadius: '16px', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+                      {[
+                        { time: 'Aujourd\'hui, 14:30', title: 'Nouvelle candidature reçue', type: 'cv', color: '#10b981' },
+                        { time: 'Hier, 09:15', title: 'Demande de contact : Entreprise Dubois', type: 'msg', color: '#3b82f6' },
+                        { time: 'Hier, 16:45', title: 'Mise à jour de l\'Organigramme', type: 'system', color: '#8b5cf6' },
+                        { time: '12 Juin, 11:00', title: 'Nouvelle adhésion en attente', type: 'member', color: '#f59e0b' }
+                      ].map((activity, i) => (
+                        <div key={i} style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '15px', borderBottom: i !== 3 ? '1px solid #f1f5f9' : 'none' }}>
+                          <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: activity.color }}></div>
+                          <div style={{ flex: 1 }}>
+                            <p style={{ margin: 0, fontWeight: 600, fontSize: '0.95rem' }}>{activity.title}</p>
+                            <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{activity.time}</span>
+                          </div>
+                          <button className="admin-btn admin-btn-secondary" style={{ padding: '6px 12px', fontSize: '0.75rem' }}>Voir</button>
+                        </div>
+                      ))}
+                    </div>
                   </div>
+
+                  <div>
+                    <h4 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px' }}><Shield size={20} color="#10b981"/> État du Système</h4>
+                    <div style={{ background: '#0f172a', borderRadius: '16px', padding: '24px', color: 'white' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', alignItems: 'center' }}>
+                        <span style={{ fontSize: '0.9rem', color: '#cbd5e1' }}>Serveur Principal</span>
+                        <span style={{ background: 'rgba(16,185,129,0.2)', color: '#34d399', padding: '4px 10px', borderRadius: '50px', fontSize: '0.7rem', fontWeight: 800 }}>EN LIGNE</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', alignItems: 'center' }}>
+                        <span style={{ fontSize: '0.9rem', color: '#cbd5e1' }}>Base de données</span>
+                        <span style={{ background: 'rgba(16,185,129,0.2)', color: '#34d399', padding: '4px 10px', borderRadius: '50px', fontSize: '0.7rem', fontWeight: 800 }}>SYNCHRONISÉE</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', alignItems: 'center' }}>
+                        <span style={{ fontSize: '0.9rem', color: '#cbd5e1' }}>Certificat SSL</span>
+                        <span style={{ background: 'rgba(59,130,246,0.2)', color: '#60a5fa', padding: '4px 10px', borderRadius: '50px', fontSize: '0.7rem', fontWeight: 800 }}>VALIDE</span>
+                      </div>
+                      <div style={{ width: '100%', height: '1px', background: 'rgba(255,255,255,0.1)', margin: '20px 0' }}></div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                        <div style={{ flex: 1 }}>
+                          <span style={{ display: 'block', fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>Espace de stockage</span>
+                          <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px', marginTop: '8px' }}>
+                            <div style={{ width: '35%', height: '100%', background: 'linear-gradient(90deg, #3b82f6, #10b981)', borderRadius: '10px' }}></div>
+                          </div>
+                          <span style={{ display: 'block', fontSize: '0.75rem', marginTop: '6px', color: '#cbd5e1' }}>1.2 GB / 5 GB</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             )}
