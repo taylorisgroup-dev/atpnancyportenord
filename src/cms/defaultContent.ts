@@ -271,8 +271,11 @@ export const defaultContent = {
   },
   adherents: [] as Array<{ id: string, email: string, name: string, company: string, status: 'pending' | 'active' | 'suspended' }>,
   organigram: [
-    { id: "1", name: "Saber Bouzaza", role: "Président", image: "https://media.licdn.com/dms/image/v2/D4E03AQHT26RwlmECtw/profile-displayphoto-crop_800_800/B4EZ13PtQEJcAI-/0/1775822099984?e=1777507200&v=beta&t=aoZMcAFRPp-Nv3tMu1zKvIJxm0vmQnxYD06d9wiqNhI", parentId: null, company: "ATP" }
-  ] as Array<{ id: string, name: string, role: string, image: string, parentId: string | null, company: string }>,
+    { id: "1", group: "presidence", firstName: "Saber", lastName: "BOUZAZA", atpRole: "Président", companyRole: "Gouvernance stratégique", photo: "https://media.licdn.com/dms/image/v2/D4E03AQHT26RwlmECtw/profile-displayphoto-crop_800_800/B4EZ13PtQEJcAI-/0/1775822099984?e=1777507200&v=beta&t=aoZMcAFRPp-Nv3tMu1zKvIJxm0vmQnxYD06d9wiqNhI" },
+    { id: "2", group: "bureau", firstName: "Jabar", lastName: "OUMEDDOUR", atpRole: "Trésorier", companyRole: "Gestion financière", photo: "" },
+    { id: "3", group: "bureau", firstName: "Romain", lastName: "BAYETTE", atpRole: "Secrétaire", companyRole: "Administration", photo: "" },
+    { id: "4", group: "comite", firstName: "Michel", lastName: "SILVA", atpRole: "Membre du Comité", companyRole: "Expertise territoriale", photo: "" }
+  ] as Array<{ id: string, group: 'presidence' | 'bureau' | 'comite', firstName: string, lastName: string, atpRole: string, companyRole: string, photo: string }>,
   legal: {
     cgu: "Conditions Générales d'Utilisation à définir...",
     cgv: "Conditions Générales de Vente à définir...",

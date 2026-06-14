@@ -17,17 +17,16 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
   // Load content from Supabase on mount
   useEffect(() => {
     const loadContent = async () => {
-      // Sécurité anti-blocage : on force la fin du chargement après 3.5s si Supabase ne répond pas
-      const fallbackTimer = setTimeout(() => {
-        setLoading(false);
-      }, 3500);
-
       try {
-        const { data, error } = await supabase
-          .from('site_settings')
-          .select('*')
-          .eq('id', 'global')
-          .single();
+        // Enforce a minimum 5-second delay for the loading animation and slogan
+        const [{ data, error }] = await Promise.all([
+          supabase
+            .from('site_settings')
+            .select('*')
+            .eq('id', 'global')
+            .single(),
+          new Promise(resolve => setTimeout(resolve, 5000))
+        ]);
 
         if (data) {
           // Backward compatibility check for older data structures
@@ -54,7 +53,6 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
       } catch (error) {
         console.error("Error loading CMS content from Supabase:", error);
       } finally {
-        clearTimeout(fallbackTimer);
         setLoading(false);
       }
     };

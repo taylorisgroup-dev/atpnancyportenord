@@ -277,12 +277,12 @@ export const AdminDashboard: React.FC = () => {
 
       <div className="admin-sidebar">
         <div className="admin-sidebar-logo">
-           <div style={{ width: '45px', height: '45px', background: 'var(--atp-red)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Star color="white" size={24} />
+           <div style={{ width: '50px', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+              <img src="/atp_logo_transparent.png" alt="ATP Logo" style={{ width: '100%', objectFit: 'contain' }} />
            </div>
            <div>
-              <h2 style={{ fontSize: '1.2rem', margin: 0, fontWeight: 900 }}>ATP NANCY</h2>
-              <p style={{ fontSize: '0.6rem', margin: 0, opacity: 0.5, fontWeight: 800, textTransform: 'uppercase' }}>Administration</p>
+              <h2 style={{ fontSize: '1.2rem', margin: 0, fontWeight: 900 }}>CONSOLE ATP</h2>
+              <p style={{ fontSize: '0.6rem', margin: 0, opacity: 0.5, fontWeight: 800, textTransform: 'uppercase' }}>Porte Nord</p>
            </div>
         </div>
         
@@ -458,6 +458,15 @@ export const AdminDashboard: React.FC = () => {
                     setEditingItemIndex('new');
                     setCurrentItem({ name: '', sector: '', description: '', zone: '', logo: '', phone: '', email: '', employees: '', slug: '', jobOffers: [] });
                   }} className="admin-btn admin-btn-primary"><Plus size={18}/> Ajouter une entreprise</button>
+                </div>
+
+                <div style={{ background: 'white', padding: '2rem', borderRadius: '1rem', border: '1px solid #e2e8f0', marginBottom: '2rem' }}>
+                  <h4 style={{ fontSize: '1.1rem', fontWeight: 800, margin: '0 0 1rem' }}>Ressources de l'Annuaire</h4>
+                  <PremiumFileUpload 
+                    label="Uploader le Guide des Entreprises (PDF)" 
+                    value={content.directory?.guidePdf || ''} 
+                    onChange={(v) => handleChange(['directory', 'guidePdf'], v)} 
+                  />
                 </div>
 
                 {editingItemIndex !== null ? (
@@ -785,10 +794,10 @@ export const AdminDashboard: React.FC = () => {
 
                 <div className="admin-field-group full">
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h3 className="admin-tab-title" style={{ margin: 0 }}><Users size={32}/> Organigramme Dynamique</h3>
+                    <h3 className="admin-tab-title" style={{ margin: 0 }}><Users size={32}/> Gouvernance de l'ATP</h3>
                     <button onClick={() => {
                       const newOrg = [...(content.organigram || [])];
-                      newOrg.push({ id: `node-${Date.now()}`, name: '', role: '', company: '', image: '', parentId: null });
+                      newOrg.push({ id: `node-${Date.now()}`, group: 'comite', firstName: '', lastName: '', atpRole: '', companyRole: '', photo: '' });
                       handleChange(['organigram'], newOrg);
                     }} className="admin-btn admin-btn-primary"><Plus size={18}/> Ajouter un membre</button>
                   </div>
@@ -798,33 +807,53 @@ export const AdminDashboard: React.FC = () => {
                   <div key={member.id || i} style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '1.2rem', border: '1px solid #e2e8f0', marginBottom: '1rem', gridColumn: '1 / -1' }}>
                     <div className="admin-grid">
                       <div className="admin-field-group">
-                        <label className="admin-label">Nom complet</label>
-                        <input value={member.name || ''} onChange={e => {
+                        <label className="admin-label">Groupe d'appartenance</label>
+                        <select value={member.group || 'comite'} onChange={e => {
                           const newOrg = [...(content.organigram || [])];
-                          newOrg[i] = { ...newOrg[i], name: e.target.value };
+                          newOrg[i] = { ...newOrg[i], group: e.target.value as 'presidence' | 'bureau' | 'comite' };
+                          handleChange(['organigram'], newOrg);
+                        }} className="admin-input-txt" style={{ backgroundColor: 'white' }}>
+                          <option value="presidence">Présidence</option>
+                          <option value="bureau">Bureau Exécutif</option>
+                          <option value="comite">Comité de l'Association</option>
+                        </select>
+                      </div>
+                      <div className="admin-field-group">
+                        <label className="admin-label">Statut ATP (ex: Président, Trésorier...)</label>
+                        <input value={member.atpRole || ''} onChange={e => {
+                          const newOrg = [...(content.organigram || [])];
+                          newOrg[i] = { ...newOrg[i], atpRole: e.target.value };
                           handleChange(['organigram'], newOrg);
                         }} className="admin-input-txt" />
                       </div>
                       <div className="admin-field-group">
-                        <label className="admin-label">Rôle (ex: Président, Trésorier...)</label>
-                        <input value={member.role || ''} onChange={e => {
+                        <label className="admin-label">Prénom</label>
+                        <input value={member.firstName || ''} onChange={e => {
                           const newOrg = [...(content.organigram || [])];
-                          newOrg[i] = { ...newOrg[i], role: e.target.value };
+                          newOrg[i] = { ...newOrg[i], firstName: e.target.value };
+                          handleChange(['organigram'], newOrg);
+                        }} className="admin-input-txt" />
+                      </div>
+                      <div className="admin-field-group">
+                        <label className="admin-label">Nom (en gras)</label>
+                        <input value={member.lastName || ''} onChange={e => {
+                          const newOrg = [...(content.organigram || [])];
+                          newOrg[i] = { ...newOrg[i], lastName: e.target.value };
                           handleChange(['organigram'], newOrg);
                         }} className="admin-input-txt" />
                       </div>
                       <div className="admin-field-group full">
-                        <label className="admin-label">Entreprise représentée</label>
-                        <input value={member.company || ''} onChange={e => {
+                        <label className="admin-label">Spécialité / Entreprise</label>
+                        <input value={member.companyRole || ''} onChange={e => {
                           const newOrg = [...(content.organigram || [])];
-                          newOrg[i] = { ...newOrg[i], company: e.target.value };
+                          newOrg[i] = { ...newOrg[i], companyRole: e.target.value };
                           handleChange(['organigram'], newOrg);
                         }} className="admin-input-txt" />
                       </div>
                       <div className="admin-field-group full">
-                        <PremiumImageUpload value={member.image || ''} onChange={v => {
+                        <PremiumImageUpload value={member.photo || ''} onChange={v => {
                           const newOrg = [...(content.organigram || [])];
-                          newOrg[i] = { ...newOrg[i], image: v };
+                          newOrg[i] = { ...newOrg[i], photo: v };
                           handleChange(['organigram'], newOrg);
                         }} label="Photo de profil" />
                       </div>
