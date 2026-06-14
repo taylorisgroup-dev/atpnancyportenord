@@ -220,22 +220,28 @@ const HomePage = () => {
         <div className="digital-waves">
           <svg className="wave-svg" viewBox="0 0 1440 320"><path d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
         </div>
-        <div className="container hero-content">
-          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="hero-text-side">
-            <span className="section-subtitle-small"><strong style={{ color: 'white', opacity: 0.9 }}>{hero.subtitle}</strong></span>
-            <h1 className="hero-title" style={{ color: 'white', marginBottom: '25px', lineHeight: 1.15 }}>
-              <span className="text-gradient" style={{ filter: 'brightness(1.5)', display: 'block' }}>{hero.titleHighlight}</span>
-              <span style={{ display: 'block' }}>{hero.titleText}</span>
+        <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', paddingTop: '40px' }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} style={{ width: '100%', maxWidth: '1000px' }}>
+            <h1 className="hero-title" style={{ color: 'white', marginBottom: '15px', lineHeight: 1.15 }}>
+              ATP Nancy Porte Nord <br/>
+              <span className="text-gradient" style={{ filter: 'brightness(1.5)' }}>Bienvenue sur le site officiel</span>
             </h1>
-            <p className="hero-intro-text">{hero.intro}</p>
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-              <a href={hero.primaryButtonLink} target="_blank" className="btn btn-primary">{hero.primaryButtonText}</a>
-              <a href="#actions" className="btn btn-blue">{hero.secondaryButtonText}</a>
-            </div>
-          </motion.div>
+            <span className="section-subtitle-small" style={{ marginBottom: '40px', display: 'inline-block' }}>
+              <strong style={{ color: 'white', opacity: 0.9 }}>ASSOCIATION TERRITOIRE PROJET - FONDÉE EN MAI 2006</strong>
+            </span>
 
-          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.9, delay: 0.2 }} className="hero-video-side" style={{ width: '100%', flex: 1.5, maxWidth: '800px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 25px 50px rgba(0,0,0,0.25)', border: '4px solid rgba(255,255,255,0.1)' }}>
-            <VideoFrame url={hero.videoUrl} />
+            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.9, delay: 0.2 }} className="hero-video-side hover-video-card" style={{ width: '100%', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 25px 50px rgba(0,0,0,0.4)', border: '4px solid rgba(255,255,255,0.1)', marginBottom: '40px', aspectRatio: '16/9' }}>
+              <VideoFrame url={hero.videoUrl} />
+            </motion.div>
+
+            <p className="hero-intro-text" style={{ fontSize: '1.15rem', lineHeight: 1.8, maxWidth: '850px', margin: '0 auto 35px', color: 'rgba(255,255,255,0.95)' }}>
+              Depuis mai 2006, l'Association Territoire Projet fédère les entrepreneurs et entreprises de Maxéville et du Grand Nancy. Sur 178 hectares de zones d'activités, nous sommes le lien stratégique entre les acteurs économiques et les institutions locales, métropolitaines et régionales.
+            </p>
+            
+            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <a href={hero.primaryButtonLink} target="_blank" className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '1.1rem' }}>{hero.primaryButtonText}</a>
+              <a href="#actions" className="btn btn-blue" style={{ padding: '16px 32px', fontSize: '1.1rem' }}>{hero.secondaryButtonText}</a>
+            </div>
           </motion.div>
         </div>
       </section>
