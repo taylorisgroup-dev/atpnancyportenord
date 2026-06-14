@@ -96,10 +96,15 @@ h3 { font-size: 1.4rem; color: var(--charcoal-gray); line-height: 1.3; }
 }
 
 .logo-img {
-  height: 65px; /* Boosted for better visibility */
+  height: 60px;
   width: auto;
-  object-fit: contain;
-  transition: var(--transition-slow);
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+  .logo-img {
+    height: 45px;
+  }
 }
 
 .desktop-menu {

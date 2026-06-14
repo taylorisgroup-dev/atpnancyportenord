@@ -17,26 +17,23 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
   // Load content from Supabase on mount
   useEffect(() => {
     const loadContent = async () => {
-      try {
-        const [supabaseResponse] = await Promise.all([
-          supabase
-            .from('site_settings')
-            .select('content')
-            .eq('id', 'global')
-            .single(),
-          new Promise(resolve => setTimeout(resolve, 1500)) // Force display splash screen for 1.5s
-        ]);
-        
-        const { data, error } = supabaseResponse;
-        
-        if (error && error.code !== 'PGRST116') { // PGRST116 is 'no rows returned'
-          throw error;
-        }
+      // Sécurité anti-blocage : on force la fin du chargement après 3.5s si Supabase ne répond pas
+      const fallbackTimer = setTimeout(() => {
+        setLoading(false);
+      }, 3500);
 
-        if (data && data.content) {
-          const loadedContent = { ...data.content };
-          if (loadedContent.directory && loadedContent.directory.companies) {
-            loadedContent.directory.companies = loadedContent.directory.companies.map((c: any) => ({
+      try {
+        const { data, error } = await supabase
+          .from('site_settings')
+          .select('*')
+          .eq('id', 'global')
+          .single();
+
+        if (data) {
+          // Backward compatibility check for older data structures
+          let loadedContent = { ...data.content };
+          if (Array.isArray(loadedContent.directory)) {
+            loadedContent.directory = loadedContent.directory.map((c: any) => ({
               ...c,
               premium: false
             }));
@@ -57,6 +54,7 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
       } catch (error) {
         console.error("Error loading CMS content from Supabase:", error);
       } finally {
+        clearTimeout(fallbackTimer);
         setLoading(false);
       }
     };
@@ -111,10 +109,19 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
   if(loading) {
     return (
       <div style={{ height: '100vh', width: '100vw', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #0f172a, #003a5c)', color: 'white' }}>
-        <img src="/atp_logo_transparent.png" alt="ATP Porte Nord" style={{ width: '160px', marginBottom: '30px', animation: 'pulse 2s infinite', filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.3))' }} />
-        <h2 style={{ color: 'white', letterSpacing: '0.05em', fontSize: '1.4rem', margin: 0, fontWeight: 800 }}>ATP NANCY PORTE NORD</h2>
-        <div style={{ width: '40px', height: '4px', background: '#c42b2e', margin: '20px 0', borderRadius: '2px' }} />
-        <span style={{ opacity: 0.7, fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.2em', fontWeight: 600 }}>Initialisation...</span>
+        <style>
+          {`
+            @keyframes slideUpFade {
+              0% { opacity: 0; transform: translateY(20px); }
+              100% { opacity: 1; transform: translateY(0); }
+            }
+          `}
+        </style>
+        <img src="/atp_logo_transparent.png" alt="ATP Porte Nord" style={{ width: '260px', marginBottom: '25px', animation: 'pulse 2.5s infinite', filter: 'drop-shadow(0 15px 30px rgba(0,0,0,0.4))' }} />
+        <h2 style={{ color: 'white', letterSpacing: '0.05em', fontSize: '1.6rem', margin: 0, fontWeight: 800 }}>ATP NANCY PORTE NORD</h2>
+        <div style={{ marginTop: '15px', animation: 'slideUpFade 1s ease-out forwards', animationDelay: '0.2s', opacity: 0 }}>
+          <span style={{ fontSize: '1.1rem', fontStyle: 'italic', color: '#e2e8f0', letterSpacing: '0.02em' }}>Le réseau qui fait bouger la zone</span>
+        </div>
       </div>
     );
   }
