@@ -237,7 +237,9 @@ const HomePage = () => {
             <p className="hero-intro-text" style={{ fontSize: '1.25rem', lineHeight: 1.6, maxWidth: '1050px', margin: '0 auto 40px', color: 'rgba(255,255,255,0.95)' }}>
               Depuis mai 2006, l'Association Territoire Projet fédère les entrepreneurs et entreprises de Maxéville et du Grand Nancy.<br className="hidden-mobile"/> Sur 178 hectares de zones d'activités, nous sommes le lien stratégique entre les acteurs économiques et les institutions locales, métropolitaines et régionales.
             </p>
-            
+            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <a href={hero.primaryButtonLink} target="_blank" className="btn btn-primary" style={{ padding: '16px 36px', fontSize: '1.15rem' }}>{hero.primaryButtonText}</a>
+              <a href="#actions" className="btn btn-blue" style={{ padding: '16px 36px', fontSize: '1.15rem' }}>{hero.secondaryButtonText}</a>
             </div>
           </motion.div>
         </div>
