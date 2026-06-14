@@ -77,7 +77,7 @@ const extractDataFromCV = async (file: File) => {
 
 export const AdminDashboard: React.FC = () => {
   const { content, updateNestedContent } = useContent();
-  const [activeTab, setActiveTab] = useState('hero');
+  const [activeTab, setActiveTab] = useState('overview');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [editingItemIndex, setEditingItemIndex] = useState<number | 'new' | null>(null);
@@ -165,10 +165,16 @@ export const AdminDashboard: React.FC = () => {
 
   const menuGroups = [
     {
+      title: "Tableau de bord",
+      items: [
+        { id: 'overview', label: "Vue d'ensemble", icon: <LayoutDashboard size={18}/> },
+        { id: 'analytics', label: 'Statistiques & Rapports', icon: <BarChart3 size={18}/> },
+      ]
+    },
+    {
       title: "Général & Accueil",
       items: [
-        { id: 'hero', label: 'Accueil (Hero)', icon: <LayoutDashboard size={18}/> },
-        { id: 'analytics', label: 'Statistiques & Rapports', icon: <BarChart3 size={18}/> },
+        { id: 'hero', label: 'Accueil (Hero)', icon: <Sparkles size={18}/> },
         { id: 'videos', label: 'Vidéos', icon: <Video size={18}/> },
         { id: 'banner', label: 'Bannière Actus', icon: <ImageIcon size={18}/> },
         { id: 'popup', label: 'Pop-up Dynamique', icon: <Sparkles size={18}/> },
@@ -316,6 +322,56 @@ export const AdminDashboard: React.FC = () => {
         <AnimatePresence mode="wait">
           <motion.div key={activeTab} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} className="admin-glass-card">
             
+            {activeTab === 'overview' && (
+              <div className="admin-grid">
+                <div className="admin-field-group full" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <h3 className="admin-tab-title" style={{ marginBottom: '8px' }}><LayoutDashboard size={32}/> Vue d'ensemble</h3>
+                    <p style={{ color: 'var(--text-muted)' }}>Bienvenue sur votre nouvelle Console de Gestion Ultrapro.</p>
+                  </div>
+                  <button onClick={() => setActiveTab('analytics')} className="admin-btn admin-btn-primary"><BarChart3 size={18} /> Voir les Statistiques Détaillées</button>
+                </div>
+                
+                <div className="admin-field-group" style={{ background: 'linear-gradient(135deg, #1e293b, #0f172a)', padding: '24px', borderRadius: '16px', color: 'white', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <Users size={28} color="#cbd5e1" />
+                  <h4 style={{ margin: 0, fontSize: '1rem', color: '#94a3b8' }}>Adhérents Actifs</h4>
+                  <p style={{ margin: 0, fontSize: '2.5rem', fontWeight: 900 }}>48</p>
+                  <span style={{ fontSize: '0.8rem', color: '#10b981' }}>+12% ce mois-ci</span>
+                </div>
+
+                <div className="admin-field-group" style={{ background: 'linear-gradient(135deg, #003a5c, #002236)', padding: '24px', borderRadius: '16px', color: 'white', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <MapPin size={28} color="#93c5fd" />
+                  <h4 style={{ margin: 0, fontSize: '1rem', color: '#93c5fd' }}>Trafic du site</h4>
+                  <p style={{ margin: 0, fontSize: '2.5rem', fontWeight: 900 }}>1,240</p>
+                  <span style={{ fontSize: '0.8rem', color: '#10b981' }}>Visiteurs uniques</span>
+                </div>
+                
+                <div className="admin-field-group" style={{ background: 'linear-gradient(135deg, #c42b2e, #8a1d20)', padding: '24px', borderRadius: '16px', color: 'white', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <Mail size={28} color="#fca5a5" />
+                  <h4 style={{ margin: 0, fontSize: '1rem', color: '#fca5a5' }}>Nouveaux Messages</h4>
+                  <p style={{ margin: 0, fontSize: '2.5rem', fontWeight: 900 }}>3</p>
+                  <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)' }}>À traiter dans la boîte de réception</span>
+                </div>
+
+                <div className="admin-field-group" style={{ background: 'linear-gradient(135deg, #10b981, #059669)', padding: '24px', borderRadius: '16px', color: 'white', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <Briefcase size={28} color="#a7f3d0" />
+                  <h4 style={{ margin: 0, fontSize: '1rem', color: '#a7f3d0' }}>CV Reçus</h4>
+                  <p style={{ margin: 0, fontSize: '2.5rem', fontWeight: 900 }}>12</p>
+                  <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)' }}>Candidatures récentes</span>
+                </div>
+                
+                <div className="admin-field-group full" style={{ marginTop: '20px' }}>
+                  <h4 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '15px' }}>Actions Rapides</h4>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
+                    <button onClick={() => setActiveTab('hero')} className="admin-btn admin-btn-secondary" style={{ justifyContent: 'flex-start', padding: '15px' }}><Edit3 size={18}/> Modifier l'Accueil</button>
+                    <button onClick={() => setActiveTab('inbox')} className="admin-btn admin-btn-secondary" style={{ justifyContent: 'flex-start', padding: '15px' }}><Mail size={18}/> Voir les Messages</button>
+                    <button onClick={() => setActiveTab('directory')} className="admin-btn admin-btn-secondary" style={{ justifyContent: 'flex-start', padding: '15px' }}><Building2 size={18}/> Annuaire Entreprises</button>
+                    <button onClick={() => setActiveTab('organigramme')} className="admin-btn admin-btn-secondary" style={{ justifyContent: 'flex-start', padding: '15px' }}><Users size={18}/> Gérer le Comité</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {activeTab === 'analytics' && (
               <AdminAnalytics />
             )}
