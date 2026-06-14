@@ -2361,7 +2361,7 @@ const PwaInstallPrompt = () => {
   return (
     <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="pwa-prompt-container" style={{ position: 'fixed', bottom: '20px', left: '20px', right: '20px', background: 'white', borderRadius: '16px', padding: '20px', boxShadow: '0 20px 40px rgba(0,0,0,0.2)', zIndex: 9999, display: 'flex', alignItems: 'center', gap: '15px', maxWidth: '500px', margin: '0 auto' }}>
       <div style={{ width: '48px', height: '48px', background: '#f5f7fa', borderRadius: '12px', padding: '5px', flexShrink: 0, boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>
-        <img src="/atp_logo_transparent.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        <img src="/atp_logo_new.jpg" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '8px' }} />
       </div>
       <div style={{ flex: 1 }}>
         <strong style={{ display: 'block', fontSize: '1rem', marginBottom: '2px', color: 'var(--charcoal-gray)' }}>Application ATP</strong>

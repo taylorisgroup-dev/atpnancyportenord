@@ -30,7 +30,8 @@ import {
   Users,
   ExternalLink,
   Video,
-  Shield
+  Shield,
+  BarChart3
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -38,6 +39,7 @@ import { supabase } from '../lib/supabase';
 import { AdminInbox } from './AdminInbox';
 import { AdminCandidates } from './AdminCandidates';
 import { AdminMembers, AdminSecurity } from './AdminMembers';
+import { AdminAnalytics } from './AdminAnalytics';
 import { PremiumImageUpload } from './components/PremiumImageUpload';
 import { PremiumFileUpload } from './components/PremiumFileUpload';
 import { AdminReservations } from './AdminReservations';
@@ -166,6 +168,7 @@ export const AdminDashboard: React.FC = () => {
       title: "Général & Accueil",
       items: [
         { id: 'hero', label: 'Accueil (Hero)', icon: <LayoutDashboard size={18}/> },
+        { id: 'analytics', label: 'Statistiques & Rapports', icon: <BarChart3 size={18}/> },
         { id: 'videos', label: 'Vidéos', icon: <Video size={18}/> },
         { id: 'banner', label: 'Bannière Actus', icon: <ImageIcon size={18}/> },
         { id: 'popup', label: 'Pop-up Dynamique', icon: <Sparkles size={18}/> },
@@ -227,27 +230,29 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div className="admin-layout">
       <style>{`
-        .admin-layout { display: flex; min-height: 100vh; background-color: #f0f2f5; font-family: 'Inter', sans-serif; color: #1e293b; }
-        .admin-sidebar { width: 280px; background: #1e293b; color: white; padding: 2rem 1.5rem; display: flex; flex-direction: column; position: fixed; height: 100vh; left: 0; top: 0; z-index: 100; box-shadow: 4px 0 20px rgba(0,0,0,0.05); }
+        .admin-layout { display: flex; min-height: 100vh; background-color: #f0f2f5; font-family: var(--font-primary, 'Outfit', sans-serif); color: #1e293b; }
+        .admin-sidebar { width: 280px; background: #1e293b; color: white; padding: 2rem 1.5rem; display: flex; flex-direction: column; position: fixed; height: 100vh; left: 0; top: 0; z-index: 100; box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
         .admin-sidebar-logo { display: flex; alignItems: center; gap: 12px; margin-bottom: 2rem; padding: 0 0.5rem; }
         .admin-sidebar-group { margin-bottom: 1.5rem; }
         .admin-sidebar-group-title { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.4; font-weight: 800; padding: 0 1rem; margin-bottom: 0.8rem; }
-        .admin-menu-btn { display: flex; align-items: center; gap: 0.8rem; width: 100%; text-align: left; padding: 0.8rem 1.2rem; border-radius: 1rem; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.2s; border: none; background: transparent; color: rgba(255,255,255,0.6); margin-bottom: 2px; }
+        .admin-menu-btn { display: flex; align-items: center; gap: 0.8rem; width: 100%; text-align: left; padding: 0.8rem 1.2rem; border-radius: 1rem; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: 0.2s; border: none; background: transparent; color: rgba(255,255,255,0.6); margin-bottom: 2px; font-family: inherit; }
         .admin-menu-btn:hover { background: rgba(255,255,255,0.05); color: white; }
         .admin-menu-btn.active { background: var(--atp-red); color: white; box-shadow: 0 8px 20px rgba(196,43,46,0.2); }
         .admin-content { flex: 1; padding: 2.5rem 3.5rem; margin-left: 280px; }
-        .admin-header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 1.2rem 2rem; border-radius: 1.5rem; margin-bottom: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03); border: 1px solid #edf2f7; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 1.2rem 2rem; border-radius: 1.5rem; margin-bottom: 2.5rem; box-shadow: 0 10px 40px rgba(0,0,0,0.04); border: 1px solid #edf2f7; }
         .admin-tab-title { font-size: 1.8rem; font-weight: 900; color: #0f172a; margin-bottom: 2rem; display: flex; alignItems: center; gap: 12px; letterSpacing: -0.5px; }
-        .admin-glass-card { background: white; border-radius: 2rem; padding: 3rem; box-shadow: 0 20px 60px rgba(0,0,0,0.04); border: 1px solid #edf2f7; position: relative; }
+        .admin-glass-card { background: white; border-radius: 2rem; padding: 3rem; box-shadow: 0 20px 60px rgba(0,0,0,0.06); border: 1px solid #edf2f7; position: relative; }
         .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
         .admin-field-group { display: flex; flex-direction: column; gap: 0.6rem; }
         .admin-field-group.full { grid-column: 1 / -1; }
         .admin-label { font-size: 0.72rem; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px; }
-        .admin-input-txt { width: 100%; padding: 1rem 1.2rem; border: 1.5px solid #e2e8f0; border-radius: 1rem; font-size: 0.95rem; background: #f8fafc; transition: 0.2s; color: #1e293b; font-weight: 500; }
-        .admin-input-txt:focus { border-color: var(--atp-blue); background: white; outline: none; }
-        .admin-btn { padding: 0.8rem 1.5rem; border-radius: 1rem; font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; }
-        .admin-btn-primary { background: var(--atp-blue); color: white; }
+        .admin-input-txt { width: 100%; padding: 1rem 1.2rem; border: 1.5px solid #e2e8f0; border-radius: 1rem; font-size: 0.95rem; background: #f8fafc; transition: 0.2s; color: #1e293b; font-weight: 500; font-family: inherit; }
+        .admin-input-txt:focus { border-color: var(--atp-blue); background: white; outline: none; box-shadow: 0 0 0 4px rgba(0,85,120,0.1); }
+        .admin-btn { padding: 0.8rem 1.5rem; border-radius: 1rem; font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; font-family: inherit; }
+        .admin-btn-primary { background: var(--atp-blue); color: white; box-shadow: 0 10px 25px rgba(0,85,120,0.2); }
+        .admin-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(0,85,120,0.3); }
         .admin-btn-secondary { background: #f1f5f9; color: #475569; }
+        .admin-btn-secondary:hover { background: #e2e8f0; }
         .admin-btn-success { background: #10b981; color: white; }
         .admin-toast { position: fixed; bottom: 40px; right: 40px; background: #10b981; color: white; padding: 1.2rem 2.5rem; border-radius: 1.2rem; display: flex; align-items: center; gap: 12px; box-shadow: 0 15px 40px rgba(16,185,129,0.4); z-index: 1000; font-weight: 800; }
         .premium-upload-wrapper { display: flex; gap: 1.5rem; align-items: center; background: #f8fafc; padding: 1rem; border-radius: 1.2rem; border: 1.5px dashed #cbd5e1; }
@@ -311,6 +316,10 @@ export const AdminDashboard: React.FC = () => {
         <AnimatePresence mode="wait">
           <motion.div key={activeTab} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }} className="admin-glass-card">
             
+            {activeTab === 'analytics' && (
+              <AdminAnalytics />
+            )}
+
             {activeTab === 'inbox' && (
               <AdminInbox />
             )}
@@ -384,7 +393,7 @@ export const AdminDashboard: React.FC = () => {
 
             {activeTab === 'videos' && (
               <div className="admin-grid">
-                <div className="admin-field-group full"><h3 className="admin-tab-title"><Video size={32}/> Vidéos (Remplace LinkedIn)</h3></div>
+                <div className="admin-field-group full"><h3 className="admin-tab-title"><Video size={32}/> Vidéos</h3></div>
                 
                 <div className="admin-field-group full" style={{ marginBottom: '1.5rem' }}>
                   <label className="admin-label">Vidéo Matinales Économiques (Accueil & Page Actions)</label>
