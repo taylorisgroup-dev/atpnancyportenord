@@ -216,12 +216,12 @@ const HomePage = () => {
 
   return (
     <>
-      <section className="hero-section">
-        <div className="digital-waves">
-          <svg className="wave-svg" viewBox="0 0 1440 320"><path d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+      <section className="hero-section" style={{ minHeight: 'auto', paddingBottom: '120px', overflow: 'visible' }}>
+        <div className="digital-waves" style={{ overflow: 'hidden' }}>
+          <svg className="wave-svg" viewBox="0 0 1440 320" preserveAspectRatio="none" style={{ position: 'absolute', bottom: 0, width: '100%', height: '100px' }}><path d="M0,192L48,197.3C96,203,192,213,288,229.3C384,245,480,267,576,250.7C672,235,768,181,864,181.3C960,181,1056,235,1152,234.7C1248,235,1344,181,1392,154.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" fill="#ffffff" fillOpacity="0.05"></path></svg>
         </div>
-        <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', paddingTop: '40px' }}>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} style={{ width: '100%', maxWidth: '1000px' }}>
+        <div className="container" style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', paddingTop: '60px' }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} style={{ width: '100%', maxWidth: '1200px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h1 className="hero-title" style={{ color: 'white', marginBottom: '15px', lineHeight: 1.15 }}>
               ATP Nancy Porte Nord <br/>
               <span className="text-gradient" style={{ filter: 'brightness(1.5)' }}>Bienvenue sur le site officiel</span>
@@ -230,31 +230,32 @@ const HomePage = () => {
               <strong style={{ color: 'white', opacity: 0.9 }}>ASSOCIATION TERRITOIRE PROJET - FONDÉE EN MAI 2006</strong>
             </span>
 
-            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.9, delay: 0.2 }} className="hero-video-side hover-video-card" style={{ width: '100%', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 25px 50px rgba(0,0,0,0.4)', border: '4px solid rgba(255,255,255,0.1)', marginBottom: '40px', aspectRatio: '16/9' }}>
+            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.9, delay: 0.2 }} className="hover-video-card" style={{ width: '100%', maxWidth: '900px', margin: '0 auto 40px auto', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 25px 50px rgba(0,0,0,0.4)', border: '4px solid rgba(255,255,255,0.1)', aspectRatio: '16/9' }}>
               <VideoFrame url={hero.videoUrl} />
             </motion.div>
 
-            <p className="hero-intro-text" style={{ fontSize: '1.15rem', lineHeight: 1.8, maxWidth: '850px', margin: '0 auto 35px', color: 'rgba(255,255,255,0.95)' }}>
-              Depuis mai 2006, l'Association Territoire Projet fédère les entrepreneurs et entreprises de Maxéville et du Grand Nancy. Sur 178 hectares de zones d'activités, nous sommes le lien stratégique entre les acteurs économiques et les institutions locales, métropolitaines et régionales.
+            <p className="hero-intro-text" style={{ fontSize: '1.25rem', lineHeight: 1.6, maxWidth: '1050px', margin: '0 auto 40px', color: 'rgba(255,255,255,0.95)' }}>
+              Depuis mai 2006, l'Association Territoire Projet fédère les entrepreneurs et entreprises de Maxéville et du Grand Nancy.<br className="hidden-mobile"/> Sur 178 hectares de zones d'activités, nous sommes le lien stratégique entre les acteurs économiques et les institutions locales, métropolitaines et régionales.
             </p>
             
-            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <a href={hero.primaryButtonLink} target="_blank" className="btn btn-primary" style={{ padding: '16px 32px', fontSize: '1.1rem' }}>{hero.primaryButtonText}</a>
-              <a href="#actions" className="btn btn-blue" style={{ padding: '16px 32px', fontSize: '1.1rem' }}>{hero.secondaryButtonText}</a>
             </div>
           </motion.div>
         </div>
       </section>
 
-      <div className="container" style={{ position: 'relative', zIndex: 20 }}>
-        <motion.div initial={{ y: 40, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6 }} className="banner-card">
-          <div className="banner-img-wrapper" style={{ backgroundImage: `url(${banner.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
-          <div className="banner-text-wrapper">
-            <span className="section-subtitle-small" style={{ color: 'var(--atp-red)', fontWeight: 900, letterSpacing: '0.15em' }}>{banner.subtitle}</span>
-            <h2 style={{ fontSize: '2rem', marginBottom: '12px', lineHeight: 1.2 }}>{banner.title}</h2>
-            <p style={{ color: 'var(--text-muted)', marginBottom: '24px', fontSize: '1rem', lineHeight: 1.7 }}>{banner.text}</p>
-            <div>
-              <a href={banner.buttonLink} target="_blank" className="btn btn-primary" style={{ padding: '12px 28px', fontSize: '0.9rem' }}>{banner.buttonText}</a>
+      <div className="container" style={{ position: 'relative', zIndex: 20, marginTop: '-60px' }}>
+        <motion.div initial={{ y: 40, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.6 }} className="banner-card" style={{ padding: '60px 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)', borderRadius: '24px', border: '1px solid #e2e8f0', boxShadow: '0 25px 50px -12px rgba(0,34,54,0.15)' }}>
+          <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--atp-red), #ff4d4d)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '30px', boxShadow: '0 10px 25px rgba(226, 0, 26, 0.3)' }}>
+            <Sparkles size={36} color="white" />
+          </div>
+          <div className="banner-card-content" style={{ maxWidth: '850px', padding: 0 }}>
+            <h2 className="banner-title" style={{ fontSize: '2.4rem', fontWeight: 900, marginBottom: '15px', color: 'var(--anthracite)' }}>NOTRE RAISON D'ÊTRE</h2>
+            <h3 className="banner-subtitle" style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--atp-blue)', opacity: 0.9, marginBottom: '30px' }}>Un catalyseur au service du territoire</h3>
+            <p className="banner-text" style={{ fontSize: '1.25rem', lineHeight: 1.8, color: '#475569', marginBottom: '40px', fontStyle: 'italic' }}>
+              "L'ATP Nancy Porte Nord ne se contente pas de fédérer. Nous agissons comme un <strong style={{color: 'var(--atp-red)'}}>levier stratégique</strong> pour transformer les défis économiques en opportunités de croissance collective."
+            </p>
+            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <a href={banner.buttonLink || '/about'} className="btn btn-primary" style={{ padding: '16px 36px', fontSize: '1.1rem', borderRadius: '50px' }}>{banner.buttonText || 'Découvrir nos missions'}</a>
             </div>
           </div>
         </motion.div>
@@ -1394,7 +1395,7 @@ const TimelinePage = () => {
 
 const OrgChartPage = () => {
   const { content } = useContent();
-  const organigram = content.organigram || [];
+  const organigram = (content.organigram && content.organigram.length > 0) ? content.organigram : (defaultContent.organigram || []);
   const presidence = organigram.filter((m: any) => m.group === 'presidence');
   const bureau = organigram.filter((m: any) => m.group === 'bureau');
   const comite = organigram.filter((m: any) => m.group === 'comite');
@@ -1423,19 +1424,21 @@ const OrgChartPage = () => {
               {presidence.map((p: any, i: number) => (
                 <div key={i} style={{ maxWidth: '440px', flex: '1 1 300px' }}>
                   <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                    style={{ background: 'linear-gradient(135deg, var(--atp-blue) 0%, var(--atp-blue-light) 100%)', borderRadius: '22px', padding: '32px 28px', textAlign: 'center', color: 'white', boxShadow: '0 20px 50px rgba(0,58,92,0.28)' }}>
-                    <div style={{ width: '76px', height: '76px', borderRadius: '50%', border: '3px solid rgba(255,255,255,0.35)', margin: '0 auto 14px', overflow: 'hidden', background: 'rgba(255,255,255,0.12)' }}>
-                      {p.photo ? <img src={p.photo} alt={p.lastName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Users size={32} style={{ margin: '22px auto', color: 'rgba(255,255,255,0.6)' }}/>}
+                    className="hover-premium-card"
+                    style={{ background: 'linear-gradient(135deg, var(--atp-blue) 0%, #002236 100%)', borderRadius: '24px', padding: '40px 30px', textAlign: 'center', color: 'white', boxShadow: '0 25px 50px rgba(0,58,92,0.3)', position: 'relative', overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'radial-gradient(circle at 50% 0%, rgba(255,255,255,0.1) 0%, transparent 60%)', pointerEvents: 'none' }} />
+                    <div style={{ width: '100px', height: '100px', borderRadius: '50%', border: '4px solid rgba(255,255,255,0.2)', margin: '0 auto 20px', overflow: 'hidden', background: 'rgba(255,255,255,0.05)', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}>
+                      {p.photo ? <img src={p.photo} alt={p.lastName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Users size={40} style={{ margin: '26px auto', color: 'rgba(255,255,255,0.4)' }}/>}
                     </div>
-                    <strong style={{ fontSize: '1.25rem', color: 'white', display: 'block' }}>{p.firstName} <span style={{ textTransform: 'uppercase' }}>{p.lastName}</span></strong>
-                    <span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.75)', textTransform: 'uppercase', letterSpacing: '0.14em', fontWeight: 800, display: 'block', marginTop: '4px' }}>{p.atpRole}</span>
-                    <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.78rem', marginTop: '10px', lineHeight: 1.5 }}>{p.companyRole}</p>
+                    <strong style={{ fontSize: '1.4rem', color: 'white', display: 'block', fontWeight: 900 }}>{p.firstName} <span style={{ textTransform: 'uppercase' }}>{p.lastName}</span></strong>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--atp-red)', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 800, display: 'inline-block', margin: '8px 0', padding: '4px 12px', background: 'rgba(226,0,26,0.15)', borderRadius: '20px' }}>{p.atpRole}</span>
+                    <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', marginTop: '12px', lineHeight: 1.6, fontStyle: 'italic' }}>{p.companyRole}</p>
                   </motion.div>
                 </div>
               ))}
             </div>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <div style={{ width: '2px', height: '44px', background: 'linear-gradient(to bottom, var(--atp-blue), rgba(0,58,92,0.2))' }} />
+              <div style={{ width: '3px', height: '50px', background: 'linear-gradient(to bottom, var(--atp-blue), rgba(0,58,92,0.1))' }} />
             </div>
           </>
         )}
@@ -1443,28 +1446,29 @@ const OrgChartPage = () => {
         {/* BUREAU */}
         {bureau.length > 0 && (
           <>
-            <div style={{ textAlign: 'center', marginBottom: '16px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
               <span className="section-subtitle-small">BUREAU EXÉCUTIF</span>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '18px', maxWidth: '800px', margin: '0 auto' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', maxWidth: '850px', margin: '0 auto' }}>
               {bureau.map((b: any, i: number) => {
                 const color = i % 2 === 0 ? 'var(--atp-blue)' : 'var(--atp-red)';
-                const bgIcon = i % 2 === 0 ? 'rgba(0,58,92,0.08)' : 'rgba(196,43,46,0.08)';
+                const bgIcon = i % 2 === 0 ? 'rgba(0,58,92,0.08)' : 'rgba(226,0,26,0.08)';
                 return (
-                  <motion.div key={i} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }}
-                    style={{ background: 'white', border: '1px solid #e5e7eb', borderRadius: '18px', padding: '24px 22px', textAlign: 'center', borderTop: `3px solid ${color}`, boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
-                    <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: bgIcon, margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                      {b.photo ? <img src={b.photo} alt={b.lastName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Users size={24} style={{ color: color }} />}
+                  <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+                    className="hover-premium-card"
+                    style={{ background: 'white', border: '1px solid rgba(0,0,0,0.05)', borderRadius: '20px', padding: '30px 24px', textAlign: 'center', borderTop: `4px solid ${color}`, boxShadow: '0 15px 35px rgba(0,0,0,0.06)' }}>
+                    <div style={{ width: '70px', height: '70px', borderRadius: '50%', background: bgIcon, margin: '0 auto 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                      {b.photo ? <img src={b.photo} alt={b.lastName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Users size={28} style={{ color: color }} />}
                     </div>
-                    <strong style={{ fontSize: '1rem', color: 'var(--charcoal-gray)', fontWeight: 800, display: 'block' }}>{b.firstName} <span style={{ textTransform: 'uppercase' }}>{b.lastName}</span></strong>
-                    <span style={{ fontSize: '0.68rem', color: color, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 800, display: 'block', marginTop: '4px' }}>{b.atpRole}</span>
-                    <p style={{ fontSize: '0.77rem', color: 'var(--text-muted)', lineHeight: 1.5, marginTop: '10px' }}>{b.companyRole}</p>
+                    <strong style={{ fontSize: '1.1rem', color: 'var(--charcoal-gray)', fontWeight: 800, display: 'block' }}>{b.firstName} <span style={{ textTransform: 'uppercase' }}>{b.lastName}</span></strong>
+                    <span style={{ fontSize: '0.75rem', color: color, textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 800, display: 'block', marginTop: '6px' }}>{b.atpRole}</span>
+                    <p style={{ fontSize: '0.85rem', color: '#64748b', lineHeight: 1.5, marginTop: '12px' }}>{b.companyRole}</p>
                   </motion.div>
                 );
               })}
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '4px' }}>
-              <div style={{ width: '2px', height: '44px', background: 'linear-gradient(to bottom, rgba(0,58,92,0.2), rgba(196,43,46,0.3))' }} />
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '8px' }}>
+              <div style={{ width: '3px', height: '50px', background: 'linear-gradient(to bottom, rgba(0,58,92,0.15), rgba(226,0,26,0.15))' }} />
             </div>
           </>
         )}
@@ -1472,21 +1476,21 @@ const OrgChartPage = () => {
         {/* COMITE */}
         {comite.length > 0 && (
           <>
-            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '30px', marginTop: '10px' }}>
               <span className="section-subtitle-small">COMITÉ DE L'ASSOCIATION</span>
-              <h3 style={{ marginTop: '6px', color: 'var(--atp-blue)', fontSize: '1.3rem' }}>Les {comite.length} membres du Comité</h3>
+              <h3 style={{ marginTop: '10px', color: 'var(--anthracite)', fontSize: '1.5rem', fontWeight: 800 }}>Les {comite.length} membres du Comité</h3>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '14px', marginBottom: '60px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px', marginBottom: '60px' }}>
               {comite.map((c: any, i: number) => {
                 const color = i % 2 === 0 ? 'var(--atp-blue)' : 'var(--atp-red)';
                 return (
-                  <motion.div key={i} initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
-                    style={{ background: 'var(--light-gray)', borderRadius: '14px', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '14px', border: '1px solid #e5e7eb' }}>
-                    <div style={{ width: '42px', height: '42px', borderRadius: '50%', background: i % 2 === 0 ? 'rgba(0,58,92,0.1)' : 'rgba(196,43,46,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
-                      {c.photo ? <img src={c.photo} alt={c.lastName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Users size={18} style={{ color: color }} />}
+                  <motion.div key={i} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: (i % 5) * 0.05 }}
+                    style={{ background: 'white', borderRadius: '16px', padding: '16px 20px', display: 'flex', alignItems: 'center', gap: '16px', border: '1px solid #f1f5f9', boxShadow: '0 4px 15px rgba(0,0,0,0.03)' }}>
+                    <div style={{ width: '50px', height: '50px', borderRadius: '50%', background: i % 2 === 0 ? 'rgba(0,58,92,0.06)' : 'rgba(226,0,26,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, overflow: 'hidden' }}>
+                      {c.photo ? <img src={c.photo} alt={c.lastName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <Users size={20} style={{ color: color }} />}
                     </div>
                     <div>
-                      <strong style={{ fontSize: '0.88rem', color: 'var(--charcoal-gray)', fontWeight: 800, display: 'block', lineHeight: 1.3 }}>{c.firstName} <span style={{ textTransform: 'uppercase' }}>{c.lastName}</span></strong>
+                      <strong style={{ fontSize: '0.95rem', color: 'var(--anthracite)', fontWeight: 800, display: 'block', lineHeight: 1.3 }}>{c.firstName} <span style={{ textTransform: 'uppercase' }}>{c.lastName}</span></strong>
                       <span style={{ fontSize: '0.68rem', color: color, fontWeight: 800, display: 'block' }}>{c.atpRole || 'Membre du Comité'}</span>
                       {c.companyRole && <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', display: 'block' }}>{c.companyRole}</span>}
                     </div>
@@ -2328,18 +2332,15 @@ const DynamicPopup = () => {
     <AnimatePresence>
       {isOpen && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ position: 'absolute', inset: 0, background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(8px)' }} onClick={() => setIsOpen(false)} />
-          <motion.div initial={{ opacity: 0, scale: 0.9, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.9, y: 20 }} style={{ position: 'relative', background: 'white', borderRadius: '24px', padding: '40px', maxWidth: '500px', width: '100%', boxShadow: '0 25px 80px rgba(0,0,0,0.2)', textAlign: 'center', border: '1px solid rgba(255,255,255,0.4)' }}>
-            <button onClick={() => setIsOpen(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: '#f1f5f9', border: 'none', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)' }}>
-              <X size={16} />
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} style={{ position: 'absolute', inset: 0, background: 'rgba(15, 23, 42, 0.7)', backdropFilter: 'blur(10px)' }} onClick={() => setIsOpen(false)} />
+          <motion.div initial={{ opacity: 0, scale: 0.95, y: 15 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 15 }} transition={{ type: 'spring', damping: 25, stiffness: 300 }} style={{ position: 'relative', background: 'white', borderRadius: '16px', padding: '40px', maxWidth: '520px', width: '100%', boxShadow: '0 25px 80px rgba(0,0,0,0.3)', textAlign: 'center', borderTop: '4px solid var(--atp-red)' }}>
+            <button onClick={() => setIsOpen(false)} style={{ position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)', padding: '8px' }}>
+              <X size={20} />
             </button>
-            <div style={{ width: '64px', height: '64px', background: 'rgba(196,43,46,0.1)', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', color: 'var(--atp-red)' }}>
-              <Sparkles size={32} />
-            </div>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--atp-blue)', marginBottom: '16px' }}>{content.popup.title}</h3>
-            <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: 1.6, marginBottom: '32px' }}>{content.popup.message}</p>
+            <h3 style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--anthracite)', marginBottom: '20px', marginTop: '10px' }}>{content.popup.title}</h3>
+            <p style={{ color: '#475569', fontSize: '1.1rem', lineHeight: 1.6, marginBottom: '35px' }}>{content.popup.message}</p>
             {content.popup.linkText && content.popup.linkUrl && (
-              <Link to={content.popup.linkUrl} onClick={() => setIsOpen(false)} className="btn btn-primary" style={{ width: '100%', padding: '16px', fontSize: '1.05rem' }}>
+              <Link to={content.popup.linkUrl} onClick={() => setIsOpen(false)} className="btn btn-primary" style={{ padding: '14px 40px', fontSize: '1.05rem', borderRadius: '50px' }}>
                 {content.popup.linkText}
               </Link>
             )}
