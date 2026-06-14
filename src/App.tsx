@@ -7,6 +7,7 @@ import {
   ExternalLink, Video, Sparkles, Filter, BookOpen, GraduationCap,
   Eye, Download, ChevronUp, LayoutGrid, List
 } from 'lucide-react';
+import { PWAPrompt } from './components/PWAPrompt';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BrowserRouter, Routes, Route, Link, useLocation, useParams } from 'react-router-dom';
 import { useContent } from './cms/ContentContext';
@@ -83,7 +84,7 @@ const Navbar = () => {
     <nav className={`fixed-navbar ${scrolled || !isHome ? 'nav-scrolled' : 'nav-transparent'}`}>
       <div className="container nav-content">
         <Link to="/" className="logo">
-          <img src="/atp_logo_blue.png" alt="ATP Nancy Porte Nord" className="logo-img" />
+          <img src="/atp_logo_transparent.png" alt="ATP Nancy Porte Nord" className="logo-img" />
         </Link>
         <div className="desktop-menu">
           {menuItems.map((item, i) => (<NavItem key={i} title={item.title} href={item.href} subItems={item.subItems} />))}
@@ -123,7 +124,7 @@ const Footer = () => (
     <div className="container">
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '40px', marginBottom: '40px' }}>
         <div>
-          <img src="/atp_logo_white.png" alt="Logo" style={{ height: '48px', marginBottom: '15px' }} />
+          <img src="/atp_logo_transparent.png" alt="Logo" style={{ height: '48px', marginBottom: '15px' }} />
           <p style={{ opacity: 0.6, fontSize: '0.85rem', lineHeight: '1.8' }}>
             Association Territoire Projet — Nancy Porte Nord.<br />
             Zone d'Activités Porte Nord, Maxéville — 54320.<br />
@@ -149,7 +150,7 @@ const Footer = () => (
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <h4 style={{ color: 'var(--atp-red)', textTransform: 'uppercase', fontSize: '0.7rem', letterSpacing: '0.15em', fontWeight: 800 }}>Partenaires</h4>
-          <img src="/region-grand-est-white.png" alt="Région Grand Est" style={{ height: '30px', opacity: 0.8, maxWidth: '120px', objectFit: 'contain' }} />
+          <img src="/region-grand-est-transparent.png" alt="Région Grand Est" style={{ height: '30px', opacity: 0.8, maxWidth: '120px', objectFit: 'contain' }} />
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem' }}>Métropole du Grand Nancy<br />Ville de Maxéville<br />France Travail<br />Conseil Départemental 54</p>
         </div>
       </div>
@@ -190,7 +191,7 @@ const VideoFrame = ({ url }: { url?: string }) => {
           src={displayUrl}
           allow="autoplay; fullscreen; picture-in-picture"
           allowFullScreen
-          style={{ border: 'none', width: '100%', height: '100%' }}
+          style={{ border: 'none', width: '100%', height: '100%', aspectRatio: '16/9' }}
         />
       ) : (
         <div className="video-placeholder-inner">
@@ -233,7 +234,7 @@ const HomePage = () => {
             </div>
           </motion.div>
 
-          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.9, delay: 0.2 }} className="hero-video-side" style={{ width: '100%', maxWidth: '600px', aspectRatio: '16/9', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 25px 50px rgba(0,0,0,0.25)', border: '4px solid rgba(255,255,255,0.1)' }}>
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.9, delay: 0.2 }} className="hero-video-side" style={{ width: '100%', flex: 1.5, maxWidth: '800px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 25px 50px rgba(0,0,0,0.25)', border: '4px solid rgba(255,255,255,0.1)' }}>
             <VideoFrame url={hero.videoUrl} />
           </motion.div>
         </div>
@@ -281,7 +282,7 @@ const HomePage = () => {
 
           <div className="feature-row" style={{ gap: '60px', flexWrap: 'wrap' }}>
             <div className="feature-image-side" style={{ borderRadius: '1rem', display: 'flex', alignItems: 'center' }}>
-              <div style={{ borderRadius: '12px', overflow: 'hidden', boxShadow: 'var(--shadow-premium)', width: '100%', aspectRatio: '16/9', background: '#1a2332', position: 'relative' }}>
+              <div style={{ borderRadius: '12px', overflow: 'hidden', boxShadow: 'var(--shadow-premium)', width: '100%', background: '#1a2332', position: 'relative' }}>
                 <VideoFrame url={content.home?.matinalesVideoUrl} />
               </div>
             </div>
@@ -309,7 +310,7 @@ const HomePage = () => {
 
           <div className="feature-row" style={{ flexDirection: 'row-reverse' as any, gap: '60px', flexWrap: 'wrap' }}>
             <div className="feature-image-side" style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ borderRadius: '12px', overflow: 'hidden', boxShadow: 'var(--shadow-premium)', width: '100%', aspectRatio: '16/9', background: '#1a2332', position: 'relative' }}>
+              <div style={{ borderRadius: '12px', overflow: 'hidden', boxShadow: 'var(--shadow-premium)', width: '100%', background: '#1a2332', position: 'relative' }}>
                 {content.home?.emploiVideoUrl ? (
                   <VideoFrame url={content.home.emploiVideoUrl} />
                 ) : (
@@ -2330,25 +2331,42 @@ const PwaInstallPrompt = () => {
       setShowIosPrompt(true);
     }
 
+    // Check for global deferredPrompt
+    if ((window as any).deferredPrompt) {
+      setInstallPromptEvent((window as any).deferredPrompt);
+    }
+
     const handleBeforeInstallPrompt = (e: any) => {
       e.preventDefault();
       setInstallPromptEvent(e);
+      (window as any).deferredPrompt = e;
     };
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    
+    // Force show if we want to ensure visibility for debugging/UX
+    const timer = setTimeout(() => {
+        if((window as any).deferredPrompt) {
+            setInstallPromptEvent((window as any).deferredPrompt);
+        }
+    }, 2000);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      clearTimeout(timer);
+    };
   }, []);
 
   if (!installPromptEvent && !showIosPrompt) return null;
 
   return (
-    <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="pwa-prompt-container">
-      <div style={{ width: '48px', height: '48px', background: 'white', borderRadius: '12px', padding: '8px', flexShrink: 0, boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>
-        <img src="/pwa-192x192.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+    <motion.div initial={{ y: 100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="pwa-prompt-container" style={{ position: 'fixed', bottom: '20px', left: '20px', right: '20px', background: 'white', borderRadius: '16px', padding: '20px', boxShadow: '0 20px 40px rgba(0,0,0,0.2)', zIndex: 9999, display: 'flex', alignItems: 'center', gap: '15px', maxWidth: '500px', margin: '0 auto' }}>
+      <div style={{ width: '48px', height: '48px', background: '#f5f7fa', borderRadius: '12px', padding: '5px', flexShrink: 0, boxShadow: '0 4px 10px rgba(0,0,0,0.05)' }}>
+        <img src="/atp_logo_transparent.png" alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
       </div>
       <div style={{ flex: 1 }}>
-        <strong style={{ display: 'block', fontSize: '1rem', marginBottom: '2px', color: 'var(--charcoal-gray)' }}>L'App ATP Porte Nord</strong>
-        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block' }}>
-          {isIos ? "Touchez l'icône Partage puis 'Sur l'écran d'accueil'" : "Accès rapide et hors-ligne !"}
+        <strong style={{ display: 'block', fontSize: '1rem', marginBottom: '2px', color: 'var(--charcoal-gray)' }}>Application ATP</strong>
+        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'block', lineHeight: 1.3 }}>
+          {isIos ? "Touchez l'icône Partage puis 'Sur l'écran d'accueil'" : "Installez l'app pour un accès rapide et hors-ligne."}
         </span>
       </div>
       
@@ -2360,11 +2378,12 @@ const PwaInstallPrompt = () => {
               installPromptEvent.userChoice.then((choiceResult: any) => {
                 if (choiceResult.outcome === 'accepted') {
                   setInstallPromptEvent(null);
+                  (window as any).deferredPrompt = null;
                 }
               });
             }
           }} 
-          style={{ background: 'var(--atp-blue)', color: 'white', border: 'none', padding: '12px 24px', borderRadius: '12px', fontWeight: 800, cursor: 'pointer', fontSize: '0.9rem', transition: 'all 0.2s', marginLeft: '10px', boxShadow: '0 4px 15px rgba(0, 58, 92, 0.3)' }}
+          style={{ background: 'var(--atp-red)', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '8px', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem', boxShadow: '0 4px 15px rgba(196, 43, 46, 0.3)' }}
         >
           Installer
         </button>
@@ -2383,6 +2402,7 @@ const AppLayout = () => {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <PWAPrompt />
       {!isAdmin && <Navbar />}
       {!isAdmin && <DynamicPopup />}
       {!isAdmin && <PwaInstallPrompt />}

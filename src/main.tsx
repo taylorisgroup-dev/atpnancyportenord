@@ -11,6 +11,12 @@ if ('serviceWorker' in navigator) {
   registerSW({ immediate: true })
 }
 
+// Intercepter l'événement d'installation de la PWA le plus tôt possible
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  (window as any).deferredPrompt = e;
+});
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AuthProvider>
