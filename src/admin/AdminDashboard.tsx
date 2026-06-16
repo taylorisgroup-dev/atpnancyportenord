@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import { useContent } from '../cms/ContentContext';
 import { 
@@ -31,9 +32,12 @@ import {
   ExternalLink,
   Video,
   Shield,
-  BarChart3
+  BarChart3,
+  Search,
+  ChevronDown
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../lib/supabase';
 import { AdminInbox } from './AdminInbox';
@@ -43,6 +47,8 @@ import { AdminAnalytics } from './AdminAnalytics';
 import { PremiumImageUpload } from './components/PremiumImageUpload';
 import { PremiumFileUpload } from './components/PremiumFileUpload';
 import { AdminReservations } from './AdminReservations';
+import AdminOrganigram from './AdminOrganigram';
+
 const extractDataFromCV = async (file: File) => {
   // Convert file to base64
   const readFileAsBase64 = (file: File): Promise<string> => {
@@ -98,7 +104,7 @@ export const AdminDashboard: React.FC = () => {
     } catch (error: any) {
       alert("Identifiants incorrects ou non configurés. Configurez l'utilisateur dans Supabase (admin@nancyportenord.com).");
       // Fallback local uniquement pour développement
-      if (import.meta.env.DEV && password === 'atp2026') setIsAuthenticated(true);
+      if (process.env.NODE_ENV === 'development' && password === 'atp2026') setIsAuthenticated(true);
     }
   };
 
@@ -305,17 +311,42 @@ export const AdminDashboard: React.FC = () => {
           ))}
         </div>
 
-        <button onClick={() => setIsAuthenticated(false)} className="admin-menu-btn" style={{ marginTop: '2rem', color: '#ef4444' }}><LogOut size={18} /> Déconnexion</button>
+        <div style={{ padding: '0 15px', marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <button onClick={handlePublish} className="admin-btn admin-btn-success" style={{ width: '100%', justifyContent: 'center' }}>
+            <UploadCloud size={18} /> PUBLIER LE SITE
+          </button>
+          <Link href="/" target="_blank" className="admin-btn admin-btn-secondary" style={{ width: '100%', justifyContent: 'center' }}><ExternalLink size={16}/> Voir le site public</Link>
+          <button onClick={() => setIsAuthenticated(false)} className="admin-btn admin-btn-secondary" style={{ width: '100%', justifyContent: 'center', color: '#ef4444', marginTop: '10px', background: 'rgba(239,68,68,0.05)' }}><LogOut size={18} /> Déconnexion</button>
+        </div>
       </div>
 
-      <div className="admin-content">
-        <div className="admin-header">
-           <h1 style={{ fontSize: '1.2rem', fontWeight: 800, margin: 0 }}>Console de Gestion</h1>
-           <div style={{ display: 'flex', gap: '1rem' }}>
-             <Link to="/" target="_blank" className="admin-btn admin-btn-secondary"><ExternalLink size={16}/> Voir le site</Link>
-             <button onClick={handlePublish} className="admin-btn admin-btn-success">
-               <UploadCloud size={18} /> METTRE À JOUR
+      <div className="admin-content" style={{ padding: '30px' }}>
+        <div className="admin-header" style={{ padding: '15px 30px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', borderRadius: '20px', marginBottom: '30px', boxShadow: '0 5px 20px rgba(0,0,0,0.03)', border: '1px solid #f1f5f9' }}>
+           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+             <div style={{ position: 'relative' }}>
+               <Search size={20} color="#94a3b8" style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }} />
+               <input type="text" placeholder="Rechercher un membre, une facture, un mot-clé..." className="admin-input-txt" style={{ paddingLeft: '48px', width: '380px', borderRadius: '99px', background: '#f8fafc', border: '1px solid transparent', transition: 'all 0.3s' }} onFocus={(e) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.borderColor = 'var(--atp-blue)'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(0,58,92,0.1)'; }} onBlur={(e) => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.borderColor = 'transparent'; e.currentTarget.style.boxShadow = 'none'; }} />
+             </div>
+           </div>
+           
+           <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+             <button style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '10px', borderRadius: '50%', position: 'relative', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#f1f5f9'} onMouseLeave={(e) => e.currentTarget.style.background = '#f8fafc'}>
+               <div style={{ position: 'absolute', top: '-2px', right: '-2px', width: '12px', height: '12px', background: '#ef4444', borderRadius: '50%', border: '2px solid white' }}></div>
+               <Mail size={20} color="#475569" />
              </button>
+             <button style={{ background: '#f8fafc', border: '1px solid #e2e8f0', padding: '10px', borderRadius: '50%', position: 'relative', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#f1f5f9'} onMouseLeave={(e) => e.currentTarget.style.background = '#f8fafc'}>
+               <div style={{ position: 'absolute', top: '-2px', right: '-2px', width: '12px', height: '12px', background: '#ef4444', borderRadius: '50%', border: '2px solid white' }}></div>
+               <Zap size={20} color="#475569" />
+             </button>
+             <div style={{ width: '1px', height: '35px', background: '#e2e8f0' }}></div>
+             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '6px 12px', borderRadius: '99px', transition: '0.2s' }} onMouseEnter={(e) => e.currentTarget.style.background = '#f8fafc'} onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
+               <img src="https://ui-avatars.com/api/?name=Saber+B&background=003a5c&color=fff&bold=true" alt="Admin" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }} />
+               <div>
+                 <p style={{ margin: 0, fontWeight: 800, fontSize: '0.9rem', color: '#1e293b' }}>Saber Bouzaza</p>
+                 <p style={{ margin: 0, fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>Super Administrateur</p>
+               </div>
+               <ChevronDown size={16} color="#94a3b8" />
+             </div>
            </div>
         </div>
 
@@ -688,7 +719,7 @@ export const AdminDashboard: React.FC = () => {
 
                       <div className="admin-field-group full" style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
                         <button onClick={() => {
-                          const nl = [...content.directory.companies];
+                          const nl = [...(content.directory?.companies || [])];
                           if (editingItemIndex === 'new') nl.unshift({ ...currentItem });
                           else nl[editingItemIndex as number] = currentItem;
                           handleChange(['directory', 'companies'], nl);
@@ -700,7 +731,7 @@ export const AdminDashboard: React.FC = () => {
                   </motion.div>
                 ) : (
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
-                    {content.directory.companies.map((c: any, i: number) => (
+                    {(content.directory?.companies || []).map((c: any, i: number) => (
                       <div key={i} className="cv-card">
                         <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'flex-start' }}>
                           <div className="cv-card-avatar">
@@ -721,7 +752,7 @@ export const AdminDashboard: React.FC = () => {
                           <button onClick={() => { setCurrentItem({ ...c }); setEditingItemIndex(i); }} className="admin-btn admin-btn-secondary" style={{ flex: 1, padding: '0.5rem' }}><Edit3 size={14}/> Modifier</button>
                           <button onClick={() => {
                             if (window.confirm("Supprimer cette entreprise ?")) {
-                              const nl = [...content.directory.companies];
+                              const nl = [...(content.directory?.companies || [])];
                               nl.splice(i, 1);
                               handleChange(['directory', 'companies'], nl);
                             }
@@ -834,6 +865,46 @@ export const AdminDashboard: React.FC = () => {
                           <div className="admin-field-group full">
                             <PremiumImageUpload value={action.mainImage || ''} onChange={v => handleChange(['actions', actionKey, 'mainImage'], v)} label="Image principale" />
                           </div>
+                          {actionKey === 'matinales' && (
+                            <div className="admin-field-group full" style={{ marginTop: '20px' }}>
+                              <h4 style={{ marginBottom: '15px' }}>Dernières Matinales</h4>
+                              {(action.recentMatinales || []).map((m: any, idx: number) => (
+                                <div key={idx} style={{ background: 'white', padding: '15px', borderRadius: '10px', marginBottom: '15px', border: '1px solid #e2e8f0', display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
+                                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                    <input value={m.period} onChange={e => {
+                                      const newList = [...(action.recentMatinales || [])];
+                                      newList[idx] = { ...newList[idx], period: e.target.value };
+                                      handleChange(['actions', actionKey, 'recentMatinales'], newList);
+                                    }} placeholder="Période (ex: 2025)" className="admin-input-txt" />
+                                    <input value={m.title} onChange={e => {
+                                      const newList = [...(action.recentMatinales || [])];
+                                      newList[idx] = { ...newList[idx], title: e.target.value };
+                                      handleChange(['actions', actionKey, 'recentMatinales'], newList);
+                                    }} placeholder="Titre" className="admin-input-txt" />
+                                    <input value={m.partner} onChange={e => {
+                                      const newList = [...(action.recentMatinales || [])];
+                                      newList[idx] = { ...newList[idx], partner: e.target.value };
+                                      handleChange(['actions', actionKey, 'recentMatinales'], newList);
+                                    }} placeholder="Partenaire" className="admin-input-txt" />
+                                    <textarea value={m.desc} onChange={e => {
+                                      const newList = [...(action.recentMatinales || [])];
+                                      newList[idx] = { ...newList[idx], desc: e.target.value };
+                                      handleChange(['actions', actionKey, 'recentMatinales'], newList);
+                                    }} placeholder="Description" className="admin-input-txt" rows={3} />
+                                  </div>
+                                  <button onClick={() => {
+                                    const newList = [...(action.recentMatinales || [])];
+                                    newList.splice(idx, 1);
+                                    handleChange(['actions', actionKey, 'recentMatinales'], newList);
+                                  }} className="admin-btn" style={{ background: '#fee2e2', color: '#ef4444', padding: '8px' }}><Trash2 size={16}/></button>
+                                </div>
+                              ))}
+                              <button onClick={() => {
+                                const newList = [...(action.recentMatinales || []), { period: 'Année', title: 'Nouvelle matinale', partner: '', desc: '' }];
+                                handleChange(['actions', actionKey, 'recentMatinales'], newList);
+                              }} className="admin-btn admin-btn-primary" style={{ padding: '8px 16px' }}><Plus size={16}/> Ajouter</button>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </details>
@@ -897,86 +968,7 @@ export const AdminDashboard: React.FC = () => {
             )}
 
             {activeTab === 'organigramme' && (
-              <div className="admin-grid">
-
-                <div className="admin-field-group full">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h3 className="admin-tab-title" style={{ margin: 0 }}><Users size={32}/> Gouvernance de l'ATP</h3>
-                    <button onClick={() => {
-                      const newOrg = [...(content.organigram || [])];
-                      newOrg.push({ id: `node-${Date.now()}`, group: 'comite', firstName: '', lastName: '', atpRole: '', companyRole: '', photo: '' });
-                      handleChange(['organigram'], newOrg);
-                    }} className="admin-btn admin-btn-primary"><Plus size={18}/> Ajouter un membre</button>
-                  </div>
-                </div>
-                
-                {(content.organigram || []).map((member: any, i: number) => (
-                  <div key={member.id || i} style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '1.2rem', border: '1px solid #e2e8f0', marginBottom: '1rem', gridColumn: '1 / -1' }}>
-                    <div className="admin-grid">
-                      <div className="admin-field-group">
-                        <label className="admin-label">Groupe d'appartenance</label>
-                        <select value={member.group || 'comite'} onChange={e => {
-                          const newOrg = [...(content.organigram || [])];
-                          newOrg[i] = { ...newOrg[i], group: e.target.value as 'presidence' | 'bureau' | 'comite' };
-                          handleChange(['organigram'], newOrg);
-                        }} className="admin-input-txt" style={{ backgroundColor: 'white' }}>
-                          <option value="presidence">Présidence</option>
-                          <option value="bureau">Bureau Exécutif</option>
-                          <option value="comite">Comité de l'Association</option>
-                        </select>
-                      </div>
-                      <div className="admin-field-group">
-                        <label className="admin-label">Statut ATP (ex: Président, Trésorier...)</label>
-                        <input value={member.atpRole || ''} onChange={e => {
-                          const newOrg = [...(content.organigram || [])];
-                          newOrg[i] = { ...newOrg[i], atpRole: e.target.value };
-                          handleChange(['organigram'], newOrg);
-                        }} className="admin-input-txt" />
-                      </div>
-                      <div className="admin-field-group">
-                        <label className="admin-label">Prénom</label>
-                        <input value={member.firstName || ''} onChange={e => {
-                          const newOrg = [...(content.organigram || [])];
-                          newOrg[i] = { ...newOrg[i], firstName: e.target.value };
-                          handleChange(['organigram'], newOrg);
-                        }} className="admin-input-txt" />
-                      </div>
-                      <div className="admin-field-group">
-                        <label className="admin-label">Nom (en gras)</label>
-                        <input value={member.lastName || ''} onChange={e => {
-                          const newOrg = [...(content.organigram || [])];
-                          newOrg[i] = { ...newOrg[i], lastName: e.target.value };
-                          handleChange(['organigram'], newOrg);
-                        }} className="admin-input-txt" />
-                      </div>
-                      <div className="admin-field-group full">
-                        <label className="admin-label">Spécialité / Entreprise</label>
-                        <input value={member.companyRole || ''} onChange={e => {
-                          const newOrg = [...(content.organigram || [])];
-                          newOrg[i] = { ...newOrg[i], companyRole: e.target.value };
-                          handleChange(['organigram'], newOrg);
-                        }} className="admin-input-txt" />
-                      </div>
-                      <div className="admin-field-group full">
-                        <PremiumImageUpload value={member.photo || ''} onChange={v => {
-                          const newOrg = [...(content.organigram || [])];
-                          newOrg[i] = { ...newOrg[i], photo: v };
-                          handleChange(['organigram'], newOrg);
-                        }} label="Photo de profil" />
-                      </div>
-                      <div className="admin-field-group full" style={{ textAlign: 'right' }}>
-                        <button onClick={() => {
-                          if (window.confirm("Supprimer ce membre de l'organigramme ?")) {
-                            const newOrg = [...(content.organigram || [])];
-                            newOrg.splice(i, 1);
-                            handleChange(['organigram'], newOrg);
-                          }
-                        }} className="admin-btn" style={{ background: '#fee2e2', color: '#ef4444', display: 'inline-flex' }}><Trash2 size={14}/> Supprimer</button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <AdminOrganigram />
             )}
 
             {activeTab === 'contact' && (

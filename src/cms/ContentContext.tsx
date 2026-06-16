@@ -1,3 +1,4 @@
+"use client";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { defaultContent, SiteContent } from './defaultContent';
 import { supabase } from '../lib/supabase';
@@ -32,16 +33,44 @@ export const ContentProvider = ({ children }: { children: ReactNode }) => {
           // Backward compatibility check for older data structures
           let loadedContent = { ...data.content };
           if (Array.isArray(loadedContent.directory)) {
-            loadedContent.directory = loadedContent.directory.map((c: any) => ({
-              ...c,
-              premium: false
-            }));
+            loadedContent.directory = {
+              guidePdf: '',
+              companies: loadedContent.directory.map((c: any) => ({
+                ...c,
+                premium: false
+              }))
+            };
           }
           if (loadedContent.servicesMarketplace) {
             delete loadedContent.servicesMarketplace;
           }
-          // Merge defaults with existing content to handle new fields
-          setContent({ ...defaultContent, ...loadedContent });
+          if (Array.isArray(loadedContent.organigram)) {
+            loadedContent.organigram = loadedContent.organigram.map((m: any) => {
+              if (m.group) {
+                const { group, ...rest } = m;
+                return { ...rest, groupId: group };
+              }
+              return m;
+            });
+          }
+          if (!loadedContent.organigramGroups) {
+            loadedContent.organigramGroups = defaultContent.organigramGroups;
+          }
+          // Deep merge defaults with existing content to handle new nested fields
+          const merged = { ...defaultContent, ...loadedContent };
+          if (loadedContent.home) {
+            merged.home = { ...defaultContent.home, ...loadedContent.home };
+            merged.home.hero = { ...defaultContent.home.hero, ...(loadedContent.home.hero || {}) };
+            merged.home.banner = { ...defaultContent.home.banner, ...(loadedContent.home.banner || {}) };
+          }
+          if (loadedContent.about) merged.about = { ...defaultContent.about, ...loadedContent.about };
+          if (loadedContent.popup) merged.popup = { ...defaultContent.popup, ...loadedContent.popup };
+          if (loadedContent.directory) merged.directory = { ...defaultContent.directory, ...loadedContent.directory };
+          if (loadedContent.membership) merged.membership = { ...defaultContent.membership, ...loadedContent.membership };
+          if (loadedContent.legal) merged.legal = { ...defaultContent.legal, ...loadedContent.legal };
+
+          
+          setContent(merged);
         } else {
           // Initialize DB with defaults if nothing exists
           const { error: insertError } = await supabase

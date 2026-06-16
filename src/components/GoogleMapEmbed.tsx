@@ -1,3 +1,4 @@
+"use client";
 interface GoogleMapEmbedProps {
   address?: string;
 }

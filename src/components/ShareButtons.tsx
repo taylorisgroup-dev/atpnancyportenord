@@ -1,5 +1,6 @@
+"use client";
 import { useState } from 'react';
-import { Linkedin, Share2, Mail, Copy, Check } from 'lucide-react';
+import { Link2, Share2, Mail, Copy, Check } from 'lucide-react';
 
 interface ShareButtonsProps {
   title: string;
@@ -15,7 +16,7 @@ export const ShareButtons = ({ title, company, url }: ShareButtonsProps) => {
   const links = [
     {
       label: 'LinkedIn',
-      icon: <Linkedin size={16} />,
+      icon: <Link2 size={16} />,
       color: '#0077B5',
       onClick: () =>
         window.open(

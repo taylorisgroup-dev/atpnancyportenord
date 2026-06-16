@@ -13,7 +13,7 @@ export const defaultContent = {
       titleText: "Le réseau qui fait bouger la\u00a0zone",
       intro: "Depuis mai 2006, l'Association Territoire Projet fédère les entrepreneurs et entreprises de Maxéville et du Grand Nancy. Sur 178 hectares de zones d'activités, nous sommes le lien stratégique entre les acteurs économiques et les institutions locales, métropolitaines et régionales.",
       logoImage: "/atp_logo_transparent.png",
-      videoUrl: "",
+      videoUrl: "/jingle.mp4",
       primaryButtonText: "Adhérer 2026",
       primaryButtonLink: "https://www.helloasso.com/associations/maxeville-nancy-porte-nord/adhesions/cotisations-2026",
       secondaryButtonText: "Découvrir nos actions"
@@ -151,7 +151,15 @@ export const defaultContent = {
       title: "Matinales Économiques",
       subtitle: "Le dialogue direct entre entrepreneurs et décideurs",
       intro: "Chaque trimestre, l'ATP Nancy Porte Nord organise une matinale économique regroupant chefs d'entreprise et décideurs publics — Maires, Présidents de la Métropole du Grand Nancy, Préfets et conseillers régionaux. C'est un moment de dialogue direct, sans intermédiaire, permettant d'aborder les sujets du quotidien tout comme les visions à long terme.",
-      mainImage: "/atp_networking_breakfast_1773754366034.png"
+      mainImage: "/atp_networking_breakfast_1773754366034.png",
+      recentMatinales: [
+        { period: "2025", title: "La Cyber-sécurité en Entreprise", partner: "Expert cyber & ANSSI", desc: "Atelier opérationnel sur la protection des systèmes informatiques des PME de la zone. Sensibilisation aux risques et bonnes pratiques." },
+        { period: "2025", title: "Matinale avec Lorr'up & son Directeur", partner: "Lorr'up - Agence de développement économique Nancy Sud Lorraine", desc: "Rencontre approfondie pour explorer les dispositifs d'accompagnement territorial, les aides à l'implantation et les projets de développement économique." },
+        { period: "2025", title: "Matinale de Rentrée", partner: "Réseau ATP Porte Nord", desc: "Bilan complet de l'année passée et présentation de la feuille de route 2025-2026. Moment d'échange entre adhérents sur les priorités de l'association." },
+        { period: "2025", title: "Réunion Acteurs économiques de la Métropole", partner: "Métropole du Grand Nancy", desc: "Concertation élargie avec l'ensemble des acteurs économiques métropolitains sur les projets structurants d'aménagement et de développement territorial." },
+        { period: "2024", title: "Développement & Aménagement du Territoire", partner: "Élus locaux et régionaux", desc: "Matinale dédiée aux grands projets d'infrastructure du secteur nord : voirie, zones logistiques et perspectives d'attractivité 2024-2026." },
+        { period: "2024", title: "Petits Déjeuners Entrepreneurs", partner: "Réseau ATP Porte Nord", desc: "Série de rencontres informelles entre chefs d'entreprise de la zone. Networking de qualité et partage d'expertises dans un cadre convivial." }
+      ]
     },
     forum: {
       title: "Forum Emploi & Alternance",
@@ -270,12 +278,17 @@ export const defaultContent = {
     ]
   },
   adherents: [] as Array<{ id: string, email: string, name: string, company: string, status: 'pending' | 'active' | 'suspended' }>,
+  organigramGroups: [
+    { id: "presidence", name: "Présidence", order: 1 },
+    { id: "bureau", name: "Bureau Exécutif", order: 2 },
+    { id: "comite", name: "Comité de l'Association", order: 3 }
+  ] as Array<{ id: string, name: string, order: number }>,
   organigram: [
-    { id: "1", group: "presidence", firstName: "Saber", lastName: "BOUZAZA", atpRole: "Président", companyRole: "Gouvernance stratégique", photo: "https://media.licdn.com/dms/image/v2/D4E03AQHT26RwlmECtw/profile-displayphoto-crop_800_800/B4EZ13PtQEJcAI-/0/1775822099984?e=1777507200&v=beta&t=aoZMcAFRPp-Nv3tMu1zKvIJxm0vmQnxYD06d9wiqNhI" },
-    { id: "2", group: "bureau", firstName: "Jabar", lastName: "OUMEDDOUR", atpRole: "Trésorier", companyRole: "Gestion financière", photo: "" },
-    { id: "3", group: "bureau", firstName: "Romain", lastName: "BAYETTE", atpRole: "Secrétaire", companyRole: "Administration", photo: "" },
-    { id: "4", group: "comite", firstName: "Michel", lastName: "SILVA", atpRole: "Membre du Comité", companyRole: "Expertise territoriale", photo: "" }
-  ] as Array<{ id: string, group: 'presidence' | 'bureau' | 'comite', firstName: string, lastName: string, atpRole: string, companyRole: string, photo: string }>,
+    { id: "1", groupId: "presidence", firstName: "Saber", lastName: "BOUZAZA", atpRole: "Président", companyRole: "Gouvernance stratégique", photo: "https://media.licdn.com/dms/image/v2/D4E03AQHT26RwlmECtw/profile-displayphoto-crop_800_800/B4EZ13PtQEJcAI-/0/1775822099984?e=1777507200&v=beta&t=aoZMcAFRPp-Nv3tMu1zKvIJxm0vmQnxYD06d9wiqNhI" },
+    { id: "2", groupId: "bureau", firstName: "Jabar", lastName: "OUMEDDOUR", atpRole: "Trésorier", companyRole: "Gestion financière", photo: "" },
+    { id: "3", groupId: "bureau", firstName: "Romain", lastName: "BAYETTE", atpRole: "Secrétaire", companyRole: "Administration", photo: "" },
+    { id: "4", groupId: "comite", firstName: "Michel", lastName: "SILVA", atpRole: "Membre du Comité", companyRole: "Expertise territoriale", photo: "" }
+  ] as Array<{ id: string, groupId: string, firstName: string, lastName: string, atpRole: string, companyRole: string, photo: string, linkedin?: string }>,
   legal: {
     cgu: "Conditions Générales d'Utilisation à définir...",
     cgv: "Conditions Générales de Vente à définir...",

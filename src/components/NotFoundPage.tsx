@@ -1,5 +1,7 @@
+"use client";
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+
 import { Home, ArrowLeft } from 'lucide-react';
 
 export const NotFoundPage = () => {
@@ -95,7 +97,7 @@ export const NotFoundPage = () => {
           style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}
         >
           <Link
-            to="/"
+            href="/"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
