@@ -6,8 +6,8 @@ import { PremiumImageUpload } from './components/PremiumImageUpload';
 
 export default function AdminOrganigram() {
   const { content, updateContent } = useContent();
-  const groups = content.organigramGroups || [];
-  const members = content.organigram || [];
+  const groups = Array.isArray(content.organigramGroups) ? content.organigramGroups : [];
+  const members = Array.isArray(content.organigram) ? content.organigram : [];
 
   const [editingGroupId, setEditingGroupId] = useState<string | null>(null);
   const [editingGroupData, setEditingGroupData] = useState({ id: '', name: '', order: 0 });
